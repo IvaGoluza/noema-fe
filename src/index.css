@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Noto Serif", serif;
+  --font-sans: "Inter", sans-serif;
+
+  --color-noema-navy: #1b1464;
+  --color-noema-navy-light: #2d2580;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  color: #1b1464;
+  background: #ffffff;
+}
