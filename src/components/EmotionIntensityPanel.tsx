@@ -58,11 +58,18 @@ export default function EmotionIntensityPanel({ selectedLeaves, onIntensityChang
                   <span className="font-medium">{leaf.intensity}%</span>
                 </div>
                 {/* Custom visual slider */}
-                <div className="relative h-3">
+                <div className="relative h-4">
                   <div className="absolute top-1/2 -translate-y-1/2 w-full h-1.5 rounded-full bg-gray-200" />
                   <div
                     className="absolute top-1/2 -translate-y-1/2 h-1.5 rounded-full"
                     style={{ width: `${leaf.intensity}%`, backgroundColor: leaf.coreColor }}
+                  />
+                  <div
+                    className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full shadow-sm"
+                    style={{
+                      left: `calc(${leaf.intensity}% - 8px)`,
+                      backgroundColor: leaf.coreColor,
+                    }}
                   />
                   <input
                     type="range"
