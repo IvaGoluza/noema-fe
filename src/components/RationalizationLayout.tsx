@@ -33,14 +33,9 @@ export default function RationalizationLayout({
         <div className="flex-1 bg-white flex flex-col px-10 py-10 min-w-0">
           {/* Step header */}
           <div className="flex items-start justify-between mb-2">
-            <div>
-              <p className="text-xs tracking-widest uppercase font-medium mb-1" style={{ color: '#888' }}>
-                Rationalization Journey
-              </p>
-              <h1 className="text-3xl font-semibold" style={{ fontFamily: 'Noto Serif, serif' }}>
-                {title}
-              </h1>
-            </div>
+            <h1 className="text-3xl font-semibold" style={{ fontFamily: 'Noto Serif, serif' }}>
+              {title}
+            </h1>
             <span className="text-sm mt-4 flex-shrink-0 ml-6" style={{ color: '#6b6b8a' }}>
               Step {stepNumber} of {TOTAL_STEPS}
             </span>
