@@ -29,7 +29,7 @@ export default function HomePage() {
         </p>
         <button
           onClick={() => navigate('/rationalization/1')}
-          className="px-10 py-4 rounded-2xl text-sm font-medium text-white mb-10"
+          className="px-10 py-4 rounded-2xl text font-bold text-white mb-10"
           style={{ backgroundColor: '#041627' }}
         >
           Start Session
