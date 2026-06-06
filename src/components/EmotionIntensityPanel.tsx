@@ -37,15 +37,15 @@ export default function EmotionIntensityPanel({ selectedLeaves, onIntensityChang
     <div className="flex h-full">
       {/* Left: Selected emotions + sliders */}
       <div className="flex-1 px-5 py-8 overflow-y-auto">
-        <p className="text-sm font-semibold mb-0.5" style={{ color: '#041627' }}>
+        <p className="text-sm font-semibold mb-0.5 text-navy-950">
           Selected emotions
         </p>
-        <p className="text-xs mb-4" style={{ color: '#888' }}>
+        <p className="text-xs mb-4 text-gray-500">
           Choose the intensity for emotions you selected
         </p>
 
         {selectedLeaves.length === 0 && (
-          <p className="text-xs" style={{ color: '#aaa' }}>No emotions selected yet.</p>
+          <p className="text-xs text-gray-400">No emotions selected yet.</p>
         )}
 
         {Object.entries(groups).map(([coreName, leaves]) => (
@@ -53,9 +53,9 @@ export default function EmotionIntensityPanel({ selectedLeaves, onIntensityChang
             <p className="text-xs font-semibold mb-2" style={{ color: '#041627' }}>{coreName}</p>
             {leaves.map(leaf => (
               <div key={leafKey(leaf)} className="mb-3">
-                <div className="flex justify-between items-center mb-1">
-                  <span className="text-xs" style={{ color: '#374151' }}>{leaf.tertiaryName}</span>
-                  <span className="text-xs font-medium" style={{ color: '#374151' }}>{leaf.intensity}%</span>
+                <div className="flex justify-between items-center text-xs text-gray-600 mb-1">
+                  <span>{leaf.tertiaryName || leaf.secondaryName}</span>
+                  <span className="font-medium">{leaf.intensity}%</span>
                 </div>
                 {/* Custom visual slider */}
                 <div className="relative h-3">
@@ -80,27 +80,27 @@ export default function EmotionIntensityPanel({ selectedLeaves, onIntensityChang
       </div>
 
       {/* Right: Main emotions pie chart */}
-      <div className="w-[200px] flex-shrink-0 px-5 py-8">
-        <p className="text-sm font-semibold mb-0.5" style={{ color: '#041627' }}>
+      <div className="w-56 shrink-0 px-5 py-8">
+        <p className="text-sm text-navy-950 font-semibold mb-0.5">
           Main emotions
         </p>
-        <p className="text-xs mb-4" style={{ color: '#888' }}>
+        <p className="text-xs text-gray-500 mb-4">
           See which emotions prevail
         </p>
 
         {pieData.length > 0 ? (
-          <ChartContainer config={chartConfig} className="aspect-square max-h-[200px] w-full">
+          <ChartContainer config={chartConfig} className="w-full h-65">
             <PieChart>
-              <Pie data={pieData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={70}>
+              <Pie data={pieData} dataKey="value" nameKey="name" cx="50%" cy="45%" outerRadius={65}>
                 {pieData.map((entry, i) => (
                   <Cell key={i} fill={entry.fill} />
                 ))}
               </Pie>
-              <ChartLegend content={<ChartLegendContent nameKey="name" />} />
+              <ChartLegend content={<ChartLegendContent nameKey="name" className="flex-wrap justify-center" />} />
             </PieChart>
           </ChartContainer>
         ) : (
-          <p className="text-xs" style={{ color: '#aaa' }}>Select emotions to see the chart.</p>
+          <p className="text-xs text-gray-400">Select emotions to see the chart.</p>
         )}
       </div>
     </div>

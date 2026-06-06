@@ -32,8 +32,8 @@ export default function RationalizationLayout({
         {/* Left panel — white */}
         <div className="flex-1 bg-white flex flex-col px-10 py-10 min-w-0 overflow-hidden">
           {/* Step header */}
-          <div className="flex items-start justify-between mb-2">
-            <h1 className="text-3xl font-semibold" style={{ fontFamily: 'Noto Serif, serif' }}>
+          <div className="flex items-start justify-between mb-1">
+            <h1 className="text-2xl font-semibold" style={{ fontFamily: 'Noto Serif, serif' }}>
               {title}
             </h1>
             <span className="text-sm mt-4 shrink-0 ml-6 text-purple-500">
@@ -42,9 +42,9 @@ export default function RationalizationLayout({
           </div>
 
           {/* Progress bar */}
-          <div className="w-full h-1 mb-6 bg-purple-100">
+          <div className="w-full h-1 mb-3 rounded-full bg-purple-100">
             <div
-              className="h-1 bg-purple-800"
+              className="h-1 rounded-full bg-purple-800"
               style={{ width: `${(stepNumber / TOTAL_STEPS) * 100}%` }}
             />
           </div>
@@ -57,7 +57,7 @@ export default function RationalizationLayout({
           <div className="flex-1 overflow-y-auto">{children}</div>
 
           {/* Navigation buttons */}
-          <div className="flex items-center justify-between mt-10">
+          <div className="flex items-center justify-between mt-8">
             <div>
               {onPrevious && (
                 <button

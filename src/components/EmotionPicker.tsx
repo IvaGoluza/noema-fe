@@ -16,7 +16,12 @@ export default function EmotionPicker({ selectedLeaves, onToggleLeaf }: Props) {
   const selectedKeys = new Set(selectedLeaves.map(leafKey))
 
   function isSecondaryHighlighted(secondaryName: string) {
-    return selectedLeaves.some(l => l.coreName === activeCore && l.secondaryName === secondaryName)
+    return selectedLeaves.some(l => l.coreName === activeCore && l.secondaryName === secondaryName && l.tertiaryName === '')
+  }
+
+  function handleSecondaryClick(secondaryName: string) {
+    onToggleLeaf({ coreName: core.name, coreColor: core.color, secondaryName, tertiaryName: '' })
+    setLastPath(`${core.name} > ${secondaryName}`)
   }
 
   function handleTertiaryClick(secondaryName: string, tertiaryName: string) {
@@ -26,7 +31,7 @@ export default function EmotionPicker({ selectedLeaves, onToggleLeaf }: Props) {
 
   return (
     <div>
-      <p className="text-xs mb-3" style={{ color: '#888' }}>
+      <p className="text-xs text-gray-500 mb-2">
         Select a main emotion to see its sub-emotions and detailed emotions
       </p>
 
@@ -47,7 +52,7 @@ export default function EmotionPicker({ selectedLeaves, onToggleLeaf }: Props) {
             >
               {!isActive && (
                 <span
-                  className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                  className="w-2.5 h-2.5 rounded-full shrink-0"
                   style={{ backgroundColor: emotion.color }}
                 />
               )}
@@ -64,8 +69,9 @@ export default function EmotionPicker({ selectedLeaves, onToggleLeaf }: Props) {
           return (
             <React.Fragment key={secondary.name}>
               {/* Col 1: secondary (bold) */}
-              <div
-                className="py-2.5 px-3 text-xs font-semibold text-center"
+              <button
+                onClick={() => handleSecondaryClick(secondary.name)}
+                className="py-2.5 px-3 text-xs font-semibold text-center transition-opacity hover:opacity-80"
                 style={{
                   backgroundColor: secHighlighted
                     ? lighten(core.color, 0.25)
@@ -76,7 +82,7 @@ export default function EmotionPicker({ selectedLeaves, onToggleLeaf }: Props) {
                 }}
               >
                 {secondary.name}
-              </div>
+              </button>
 
               {/* Cols 2–3: tertiary (leaf) */}
               {secondary.children.map(tertiary => {
@@ -107,9 +113,9 @@ export default function EmotionPicker({ selectedLeaves, onToggleLeaf }: Props) {
 
       {/* Selected path */}
       {lastPath && (
-        <p className="text-xs mt-3" style={{ color: '#6b7280' }}>
+        <p className="text-xs mt-3 text-gray-500">
           Selected path:{' '}
-          <span style={{ color: '#041627' }}>{lastPath}</span>
+          <span className="text-navy-950">{lastPath}</span>
         </p>
       )}
     </div>
