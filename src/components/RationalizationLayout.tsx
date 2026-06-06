@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react'
-import { Globe, ChevronLeft, ChevronRight } from 'lucide-react'
-import noemaLogo from '../assets/noema_logo.png'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 const TOTAL_STEPS = 7
 
@@ -28,15 +27,6 @@ export default function RationalizationLayout({
 
   return (
     <div className="min-h-screen flex flex-col" style={{ fontFamily: 'Inter, sans-serif', color: '#041627' }}>
-      {/* Nav */}
-      <nav className="flex items-center justify-between px-8 py-4 bg-white border-b border-gray-100 flex-shrink-0">
-        <img src={noemaLogo} alt="Noema" className="h-10" />
-        <button className="flex items-center gap-1.5 text-sm font-medium" style={{ color: '#1b1464' }}>
-          <Globe size={15} />
-          <span>EN</span>
-        </button>
-      </nav>
-
       {/* Body */}
       <div className="flex flex-1">
         {/* Left panel — white */}

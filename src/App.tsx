@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import AppLayout from './components/AppLayout'
 import HomePage from './pages/HomePage'
 import RationalizationStep1Page from './pages/RationalizationStep1Page'
 import RationalizationStep2Page from './pages/RationalizationStep2Page'
@@ -12,14 +13,16 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/rationalization/1" element={<RationalizationStep1Page />} />
-        <Route path="/rationalization/2" element={<RationalizationStep2Page />} />
-        <Route path="/rationalization/3" element={<RationalizationStep3Page />} />
-        <Route path="/rationalization/4" element={<RationalizationStep4Page />} />
-        <Route path="/rationalization/5" element={<RationalizationStep5Page />} />
-        <Route path="/rationalization/6" element={<RationalizationStep6Page />} />
-        <Route path="/rationalization/7" element={<RationalizationStep7Page />} />
+        <Route element={<AppLayout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/rationalization/1" element={<RationalizationStep1Page />} />
+          <Route path="/rationalization/2" element={<RationalizationStep2Page />} />
+          <Route path="/rationalization/3" element={<RationalizationStep3Page />} />
+          <Route path="/rationalization/4" element={<RationalizationStep4Page />} />
+          <Route path="/rationalization/5" element={<RationalizationStep5Page />} />
+          <Route path="/rationalization/6" element={<RationalizationStep6Page />} />
+          <Route path="/rationalization/7" element={<RationalizationStep7Page />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   )
