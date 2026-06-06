@@ -11,26 +11,22 @@ export default function HomePage() {
     <div className="min-h-screen bg-white">
       {/* Hero */}
       <section className="flex flex-col items-center text-center px-6 pt-12 pb-0">
-        <p className="text-xs tracking-[0.18em] uppercase font-medium mb-6" style={{ color: '#999' }}>
+        <p className="text-xs tracking-[0.18em] uppercase font-medium mb-6 text-text-faint">
           Train your mind to think more clearly
         </p>
-        <h1
-          className="text-5xl font-semibold leading-tight mb-6 max-w-2/3"
-          style={{ fontFamily: 'Noto Serif, serif', color: '#041627' }}
-        >
+        <h1 className="text-5xl font-semibold leading-tight mb-6 max-w-2/3 font-serif text-brand-dark">
           Noema: The Art of Rational Thought
         </h1>
-        <p className="leading-relaxed mb-4 max-w-xl" style={{ color: '#555' }}>
+        <p className="leading-relaxed mb-4 max-w-xl text-text-body">
           Explore your automatic thoughts, identify cognitive distortions, and learn reframing techniques.
         </p>
-        <p className="text-sm leading-relaxed mb-8 max-w-xl" style={{ color: '#888' }}>
+        <p className="text-sm leading-relaxed mb-8 max-w-xl text-text-secondary">
           Built to promote self-awareness and learning.<br />
           Intended for support and guidance, not a substitute for professional mental health care.
         </p>
         <button
           onClick={() => navigate('/rationalization/1')}
-          className="px-10 py-4 rounded-2xl text font-bold text-white mb-10"
-          style={{ backgroundColor: '#041627' }}
+          className="px-10 py-4 rounded-2xl font-bold text-white mb-10 bg-brand-dark"
         >
           Start Session
         </button>
@@ -38,37 +34,35 @@ export default function HomePage() {
       </section>
 
       {/* Three-stage journey */}
-      <section className="px-8 py-24" style={{ backgroundColor: '#FAF9FA' }}>
+      <section className="px-8 py-24 bg-surface-subtle">
         <div className="max-w-4xl mx-auto">
-        <h2
-          className="text-2xl font-semibold mb-10"
-          style={{ fontFamily: 'Noto Serif, serif', color: '#041627' }}
-        >
-          A three-stage journey toward cognitive clarity
-        </h2>
-        <div className="grid grid-cols-3 gap-4">
-          <FeatureCard
-            number="01"
-            icon={<Eye size={22} />}
-            title="Observe & detect"
-            description="Identify hidden cognitive distortions in your thoughts. Track your emotions."
-          />
-          <FeatureCard
-            number="02"
-            icon={<Crosshair size={22} />}
-            title="Analyze"
-            description="Classify and understand the exact category of detected distortions."
-          />
-          <FeatureCard
-            number="03"
-            icon={<RefreshCw size={22} />}
-            title="Reframe"
-            description="Construct a balanced, healthier and more rational interpretations of your thoughts."
-          />
-        </div>
+          <h2 className="text-2xl font-semibold mb-10 font-serif text-brand-dark">
+            A three-stage journey toward cognitive clarity
+          </h2>
+          <div className="grid grid-cols-3 gap-4">
+            <FeatureCard
+              number="01"
+              icon={<Eye size={22} />}
+              title="Observe & detect"
+              description="Identify hidden cognitive distortions in your thoughts. Track your emotions."
+            />
+            <FeatureCard
+              number="02"
+              icon={<Crosshair size={22} />}
+              title="Analyze"
+              description="Classify and understand the exact category of detected distortions."
+            />
+            <FeatureCard
+              number="03"
+              icon={<RefreshCw size={22} />}
+              title="Reframe"
+              description="Construct a balanced, healthier and more rational interpretations of your thoughts."
+            />
+          </div>
         </div>
       </section>
-      <div className='flex flex-col w-full py-10 bg-[#F5F3F4]'>
+
+      <div className="flex flex-col w-full py-10 bg-surface-warm">
         <InfoSection
           icon={<Send size={32} strokeWidth={2} />}
           title="Intelligent Support"
@@ -84,16 +78,16 @@ export default function HomePage() {
       </div>
 
       {/* Footer */}
-      <footer className="px-24 pt-40 pb-16" style={{ backgroundColor: '#f7f7f9' }}>
+      <footer className="px-24 pt-40 pb-16 bg-surface-subtle">
         <div className="mb-12">
           <NoemaLogo />
-          <p className="text-xs mt-2" style={{ color: '#888' }}>A cognitive rationalization platform.</p>
+          <p className="text-xs mt-2 text-text-secondary">A cognitive rationalization platform.</p>
         </div>
         <div className="mb-12">
           <FerBadge />
         </div>
-        <hr style={{ borderColor: '#e5e5e8' }} />
-        <p className="text-xs text-center mt-6" style={{ color: '#aaa' }}>© 2026 Noema. All rights reserved.</p>
+        <hr className="border-border-faint" />
+        <p className="text-xs text-center mt-6 text-text-secondary">© 2026 Noema. All rights reserved.</p>
       </footer>
     </div>
   )
@@ -109,11 +103,11 @@ function FeatureCard({ number, icon, title, description }: { number: string; ico
   return (
     <div className="bg-white px-6 py-8 text-left">
       <div className="flex items-start justify-between mb-4">
-        <div style={{ color: '#3C6752' }}>{icon}</div>
-        <span className="text-lg font-light" style={{ fontFamily: 'Noto Serif', color: '#ccc' }}>{number}</span>
+        <div className="text-brand-green">{icon}</div>
+        <span className="text-lg font-light font-serif text-text-faint">{number}</span>
       </div>
-      <h3 className="text-base font-semibold mb-2" style={{ fontFamily: 'Noto Serif', color: '#041627' }}>{title}</h3>
-      <p className="text-xs leading-relaxed" style={{ color: '#44474C' }}>{description}</p>
+      <h3 className="text-base font-semibold mb-2 font-serif text-brand-dark">{title}</h3>
+      <p className="text-xs leading-relaxed text-text-body">{description}</p>
     </div>
   )
 }
@@ -121,13 +115,12 @@ function FeatureCard({ number, icon, title, description }: { number: string; ico
 function InfoSection({ icon, title, body, note }: { icon: ReactNode; title: string; body: string; note: ReactNode }) {
   return (
     <section className="flex flex-col items-center text-center px-6 py-10">
-      <div className="mb-5" style={{ color: '#C5C7CB' }}>{icon}</div>
-      <h2 className="text-3xl font-semibold mb-4" style={{ fontFamily: 'Noto Serif, serif', color: '#041627' }}>
+      <div className="mb-5 text-icon-muted">{icon}</div>
+      <h2 className="text-3xl font-semibold mb-4 font-serif text-brand-dark">
         {title}
       </h2>
-      <p className="leading-relaxed mb-4 max-w-xl" style={{ color: '#555' }}>{body}</p>
-      <p className="leading-relaxed max-w-xl" style={{ color: '#888' }}>{note}</p>
+      <p className="leading-relaxed mb-4 max-w-xl text-text-body">{body}</p>
+      <p className="leading-relaxed max-w-xl text-text-secondary">{note}</p>
     </section>
   )
 }
-

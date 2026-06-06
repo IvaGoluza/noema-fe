@@ -14,8 +14,22 @@
   --font-serif: "Noto Serif", serif;
   --font-sans: "Inter", sans-serif;
 
-  --color-noema-navy: #1b1464;
-  --color-noema-navy-light: #2d2580;
+  /* Brand */
+  --color-brand-dark: #041627;
+  --color-brand-green: #3C6752;
+
+  /* Surfaces */
+  --color-surface-subtle: #FAF9FA;
+  --color-surface-warm: #F5F3F4;
+
+  /* Text scale */
+  --color-text-body: #555;
+  --color-text-secondary: #888;
+  --color-text-faint: #ccc;
+
+  /* UI */
+  --color-icon-muted: #C5C7CB;
+  --color-border-faint: #e5e5e8;
 }
 
 * {
