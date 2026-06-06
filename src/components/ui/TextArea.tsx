@@ -12,8 +12,7 @@ export default function TextArea({ value, onChange, placeholder, rows = 5 }: Pro
       onChange={e => onChange(e.target.value)}
       placeholder={placeholder}
       rows={rows}
-      className="w-full border border-gray-200 rounded bg-gray-50 px-4 py-3 text-sm resize-none focus:outline-none focus:ring-1 focus:ring-indigo-300"
-      style={{ color: '#041627' }}
+      className="w-full border border-gray-200 rounded bg-gray-50 px-4 py-3 text-sm resize-none focus:outline-none"
     />
   )
 }

@@ -9,15 +9,15 @@ interface Props {
 
 export default function SectionBlock({ label, title, description, children }: Props) {
   return (
-    <div className="pl-5 mb-8" style={{ borderLeft: '3px solid #E2E2EE' }}>
-      <p className="text-xs tracking-widest uppercase font-medium mb-1" style={{ color: '#888' }}>
+    <div className="pl-5 mb-8 border-l-3 border-l-purple-100">
+      <p className="text-xs tracking-widest uppercase font-medium mb-1 text-gray-400">
         {label}
       </p>
-      <h2 className="text-xl font-semibold mb-3" style={{ fontFamily: 'Noto Serif, serif', color: '#041627' }}>
+      <h2 className="text-xl font-semibold mb-3 text-navy-950" style={{ fontFamily: 'Noto Serif, serif' }}>
         {title}
       </h2>
       {description && (
-        <p className="text-sm mb-4 leading-relaxed" style={{ color: '#555' }}>
+        <p className="text-sm mb-4 leading-relaxed text-gray-600">
           {description}
         </p>
       )}
