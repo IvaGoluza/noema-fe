@@ -11,22 +11,22 @@ export default function HomePage() {
     <div className="min-h-screen bg-white">
       {/* Hero */}
       <section className="flex flex-col items-center text-center px-6 pt-12 pb-0">
-        <p className="text-xs tracking-[0.18em] uppercase font-medium mb-6 text-text-faint">
+        <p className="text-xs tracking-[0.18em] uppercase font-medium mb-6 text-gray-400">
           Train your mind to think more clearly
         </p>
-        <h1 className="text-5xl font-semibold leading-tight mb-6 max-w-2/3 font-serif text-brand-dark">
+        <h1 className="text-5xl font-semibold leading-tight mb-6 max-w-2/3 font-serif text-navy-950">
           Noema: The Art of Rational Thought
         </h1>
-        <p className="leading-relaxed mb-4 max-w-xl text-text-body">
+        <p className="leading-relaxed mb-4 max-w-xl text-gray-600">
           Explore your automatic thoughts, identify cognitive distortions, and learn reframing techniques.
         </p>
-        <p className="text-sm leading-relaxed mb-8 max-w-xl text-text-secondary">
+        <p className="text-sm leading-relaxed mb-8 max-w-xl text-gray-500">
           Built to promote self-awareness and learning.<br />
           Intended for support and guidance, not a substitute for professional mental health care.
         </p>
         <button
           onClick={() => navigate('/rationalization/1')}
-          className="px-10 py-4 rounded-2xl font-bold text-white mb-10 bg-brand-dark"
+          className="px-10 py-4 rounded-2xl font-bold text-white mb-10 bg-navy-950"
         >
           Start Session
         </button>
@@ -34,9 +34,9 @@ export default function HomePage() {
       </section>
 
       {/* Three-stage journey */}
-      <section className="px-8 py-24 bg-surface-subtle">
+      <section className="px-8 py-24 bg-gray-50">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-semibold mb-10 font-serif text-brand-dark">
+          <h2 className="text-2xl font-semibold mb-10 font-serif text-navy-950">
             A three-stage journey toward cognitive clarity
           </h2>
           <div className="grid grid-cols-3 gap-4">
@@ -62,7 +62,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <div className="flex flex-col w-full py-10 bg-surface-warm">
+      <div className="flex flex-col w-full py-10 bg-gray-100">
         <InfoSection
           icon={<Send size={32} strokeWidth={2} />}
           title="Intelligent Support"
@@ -78,16 +78,16 @@ export default function HomePage() {
       </div>
 
       {/* Footer */}
-      <footer className="px-24 pt-40 pb-16 bg-surface-subtle">
+      <footer className="px-24 pt-40 pb-16 bg-gray-50">
         <div className="mb-12">
           <NoemaLogo />
-          <p className="text-xs mt-2 text-text-secondary">A cognitive rationalization platform.</p>
+          <p className="text-xs mt-2 text-gray-500">A cognitive rationalization platform.</p>
         </div>
         <div className="mb-12">
           <FerBadge />
         </div>
-        <hr className="border-border-faint" />
-        <p className="text-xs text-center mt-6 text-text-secondary">© 2026 Noema. All rights reserved.</p>
+        <hr className="border-gray-200" />
+        <p className="text-xs text-center mt-6 text-gray-500">© 2026 Noema. All rights reserved.</p>
       </footer>
     </div>
   )
@@ -103,11 +103,11 @@ function FeatureCard({ number, icon, title, description }: { number: string; ico
   return (
     <div className="bg-white px-6 py-8 text-left">
       <div className="flex items-start justify-between mb-4">
-        <div className="text-brand-green">{icon}</div>
-        <span className="text-lg font-light font-serif text-text-faint">{number}</span>
+        <div className="text-green-700">{icon}</div>
+        <span className="text-lg font-light font-serif text-gray-400">{number}</span>
       </div>
-      <h3 className="text-base font-semibold mb-2 font-serif text-brand-dark">{title}</h3>
-      <p className="text-xs leading-relaxed text-text-body">{description}</p>
+      <h3 className="text-base font-semibold mb-2 font-serif text-navy-950">{title}</h3>
+      <p className="text-xs leading-relaxed text-gray-600">{description}</p>
     </div>
   )
 }
@@ -115,12 +115,12 @@ function FeatureCard({ number, icon, title, description }: { number: string; ico
 function InfoSection({ icon, title, body, note }: { icon: ReactNode; title: string; body: string; note: ReactNode }) {
   return (
     <section className="flex flex-col items-center text-center px-6 py-10">
-      <div className="mb-5 text-icon-muted">{icon}</div>
-      <h2 className="text-3xl font-semibold mb-4 font-serif text-brand-dark">
+      <div className="mb-5 text-gray-300">{icon}</div>
+      <h2 className="text-3xl font-semibold mb-4 font-serif text-navy-950">
         {title}
       </h2>
-      <p className="leading-relaxed mb-4 max-w-xl text-text-body">{body}</p>
-      <p className="leading-relaxed max-w-xl text-text-secondary">{note}</p>
+      <p className="leading-relaxed mb-4 max-w-xl text-gray-600">{body}</p>
+      <p className="leading-relaxed max-w-xl text-gray-500">{note}</p>
     </section>
   )
 }

@@ -14,22 +14,20 @@
   --font-serif: "Noto Serif", serif;
   --font-sans: "Inter", sans-serif;
 
-  /* Brand */
-  --color-brand-dark: #041627;
-  --color-brand-green: #3C6752;
+  /* Navy */
+  --color-navy-950: #041627;
 
-  /* Surfaces */
-  --color-surface-subtle: #FAF9FA;
-  --color-surface-warm: #F5F3F4;
+  /* Green */
+  --color-green-700: #3C6752;
 
-  /* Text scale */
-  --color-text-body: #555;
-  --color-text-secondary: #888;
-  --color-text-faint: #ccc;
-
-  /* UI */
-  --color-icon-muted: #C5C7CB;
-  --color-border-faint: #e5e5e8;
+  /* Gray */
+  --color-gray-50:  #FAF9FA;
+  --color-gray-100: #F5F3F4;
+  --color-gray-200: #e5e5e8;
+  --color-gray-300: #C5C7CB;
+  --color-gray-400: #ccc;
+  --color-gray-500: #888;
+  --color-gray-600: #555;
 }
 
 * {
