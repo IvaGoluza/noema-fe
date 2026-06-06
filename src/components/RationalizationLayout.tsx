@@ -26,11 +26,11 @@ export default function RationalizationLayout({
   const hasRightPanel = rightPanel !== undefined
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ fontFamily: 'Inter, sans-serif', color: '#041627' }}>
+    <div className="h-full flex flex-col overflow-hidden" style={{ fontFamily: 'Inter, sans-serif', color: '#041627' }}>
       {/* Body */}
-      <div className="flex flex-1">
+      <div className="flex flex-1 overflow-hidden">
         {/* Left panel — white */}
-        <div className="flex-1 bg-white flex flex-col px-10 py-10 min-w-0">
+        <div className="flex-1 bg-white flex flex-col px-10 py-10 min-w-0 overflow-hidden">
           {/* Step header */}
           <div className="flex items-start justify-between mb-2">
             <h1 className="text-3xl font-semibold" style={{ fontFamily: 'Noto Serif, serif' }}>
@@ -57,7 +57,7 @@ export default function RationalizationLayout({
           )}
 
           {/* Page-specific content */}
-          <div className="flex-1">{children}</div>
+          <div className="flex-1 overflow-y-auto">{children}</div>
 
           {/* Navigation buttons */}
           <div className="flex items-center justify-between mt-10">

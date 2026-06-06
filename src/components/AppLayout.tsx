@@ -3,9 +3,11 @@ import Navbar from './Navbar'
 
 export default function AppLayout() {
   return (
-    <div style={{ fontFamily: 'Inter, sans-serif', color: '#1b1464' }}>
+    <div className="h-screen flex flex-col overflow-hidden" style={{ fontFamily: 'Inter, sans-serif', color: '#1b1464' }}>
       <Navbar />
-      <Outlet />
+      <div className="flex-1 overflow-y-auto">
+        <Outlet />
+      </div>
     </div>
   )
 }
