@@ -26,7 +26,7 @@ export default function RationalizationStep1Page() {
         title="Describe the situation."
         description="Try to be objective. Identify the primary actors, environment, and the specific event that triggered this thought."
       >
-        <TextArea value={situation} onChange={setSituation} />
+        <TextArea value={situation} onChange={setSituation} placeholder='What happened? Who was involved?'/>
       </SectionBlock>
     </RationalizationLayout>
   )

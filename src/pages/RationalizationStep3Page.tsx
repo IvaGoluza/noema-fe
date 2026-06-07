@@ -10,50 +10,6 @@ interface Thought {
   belief: number
 }
 
-function ThoughtsPanel({ thoughts, onEdit, onDelete }: {
-  thoughts: Thought[]
-  onEdit: (t: Thought) => void
-  onDelete: (id: number) => void
-}) {
-  return (
-    <div className="px-6 py-8 h-full flex flex-col">
-      <p className="text-xs tracking-widest uppercase font-semibold mb-1" style={{ color: '#888' }}>
-        Rationalization Journey
-      </p>
-      <p className="text-xs mb-6" style={{ color: '#888' }}>
-        Review and manage your unfiltered thoughts
-      </p>
-
-      <div className="flex flex-col gap-3 overflow-y-auto">
-        {thoughts.length === 0 && (
-          <p className="text-xs" style={{ color: '#aaa' }}>No thoughts saved yet.</p>
-        )}
-        {thoughts.map(t => (
-          <div
-            key={t.id}
-            className="bg-white rounded-xl px-4 py-3 flex items-start justify-between gap-3"
-          >
-            <div>
-              <p className="text-sm mb-1" style={{ color: '#041627' }}>{t.content}</p>
-              <p className="text-xs font-semibold uppercase tracking-wide" style={{ color: '#1b1464' }}>
-                Belief: {t.belief}%
-              </p>
-            </div>
-            <div className="flex items-center gap-2 flex-shrink-0 mt-0.5">
-              <button onClick={() => onEdit(t)} className="text-gray-400 hover:text-gray-600">
-                <Pencil size={15} />
-              </button>
-              <button onClick={() => onDelete(t.id)} className="text-gray-400 hover:text-gray-600">
-                <Trash2 size={15} />
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
-
 export default function RationalizationStep3Page() {
   const navigate = useNavigate()
   const [thoughts, setThoughts] = useState<Thought[]>([])
@@ -101,36 +57,40 @@ export default function RationalizationStep3Page() {
       onPrevious={() => navigate('/rationalization/2')}
       onNext={() => navigate('/rationalization/4')}
     >
-      <div className="max-w-md">
+      <div className="pl-5 border-l-3 border-l-purple-100">
         {/* Thought content */}
-        <div className="mb-6">
-          <p className="text-xs tracking-widest uppercase font-medium mb-2" style={{ color: '#888' }}>
+        <div className="mb-3 max-w-3xl">
+          <p className="text-xs text-navy-950 tracking-widest uppercase font-medium mb-1">
             Thought content
+          </p>
+          <p className="text-sm text-purple-500 mb-3">
+           These often appear as lightning-fast judgments and thoughts
           </p>
           <TextArea
             value={content}
+            placeholder='What went through your mind?'
             onChange={setContent}
-            placeholder="These often appear as lightning-fast judgments or mental images"
             rows={5}
           />
         </div>
 
         {/* Degree of belief */}
-        <div className="mb-7">
-          <p className="text-xs tracking-widest uppercase font-medium mb-1" style={{ color: '#888' }}>
+        <div className="mb-7 max-w-lg">
+          <p className="text-xs text-navy-950 tracking-widest uppercase font-medium mb-1">
             Degree of belief
           </p>
-          <p className="text-xs mb-3" style={{ color: '#aaa' }}>
+          <p className="text-sm text-purple-500 mb-3">
             Choose how much you believe in the truthfulness of this thought
           </p>
-          <div className="relative h-3 mb-2">
+          <div className="relative h-3 mb-1">
             <div className="absolute top-1/2 -translate-y-1/2 w-full h-1.5 rounded-full bg-gray-200" />
             <div
-              className="absolute top-1/2 -translate-y-1/2 h-1.5 rounded-full"
-              style={{
-                width: `${belief}%`,
-                background: 'linear-gradient(to right, #f97316, #ef4444)',
-              }}
+              className="absolute top-1/2 -translate-y-1/2 h-1.5 rounded-full bg-linear-to-r from-cyan-400 to-blue-400"
+              style={{ width: `${belief}%` }}
+            />
+            <div
+              className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-blue-500 shadow-sm pointer-events-none"
+              style={{ left: `calc(${belief}% - 6px)` }}
             />
             <input
               type="range"
@@ -141,27 +101,69 @@ export default function RationalizationStep3Page() {
               className="absolute inset-0 w-full opacity-0 cursor-pointer"
             />
           </div>
-          <p className="text-sm text-right" style={{ color: '#555' }}>{belief}%</p>
+          <p className="text-sm font-bold text-blue-600 text-right">{belief}%</p>
         </div>
 
         {/* Actions */}
         <div className="flex items-center gap-3">
           <button
             onClick={saveThought}
-            className="px-5 py-2.5 rounded-xl text-sm font-medium text-white"
-            style={{ backgroundColor: '#1b1464' }}
+            className="px-5 py-2.5 rounded-xl text-sm font-medium bg-navy-950 text-white"
           >
             {editingId !== null ? 'Update thought' : 'Save the thought'}
           </button>
           <button
             onClick={cancel}
-            className="px-5 py-2.5 rounded-xl text-sm font-medium border"
-            style={{ borderColor: '#ccc', color: '#555' }}
+            className="px-5 py-2.5 rounded-xl text-sm font-medium border border-gray-400 text-gray-600"
           >
             Cancel
           </button>
         </div>
       </div>
     </RationalizationLayout>
+  )
+}
+
+function ThoughtsPanel({ thoughts, onEdit, onDelete }: {
+  thoughts: Thought[]
+  onEdit: (t: Thought) => void
+  onDelete: (id: number) => void
+}) {
+  return (
+    <div className="px-6 pt-10 h-full flex flex-col">
+      <p className="text-sm tracking-widest uppercase text-navy-950 mb-1">
+        Thoughts
+      </p>
+      <p className="text-sm text-purple-500 mb-6">
+        Review and manage your unfiltered thoughts
+      </p>
+
+      <div className="flex flex-col gap-1.5 overflow-y-auto">
+        {thoughts.length === 0 && (
+          <p className="text-sm text-gray-400">No thoughts saved yet.</p>
+        )}
+        {thoughts.map(t => (
+          <div
+            key={t.id}
+            className="bg-white rounded-lg px-4 py-3 flex items-start justify-between gap-3"
+          >
+            <div>
+              <p className="text-xs text-sky-600 font-semibold uppercase tracking-wide">
+                Belief: {t.belief}%
+              </p>
+              <p className="text-sm text-navy-950 mb-1">{t.content}</p>
+            </div>
+            <div className="flex items-center gap-2 shrink-0 mt-0.5">
+              <button onClick={() => onEdit(t)} className="text-gray-400 hover:text-gray-600">
+                <Pencil size={15} />
+              </button>
+              <button onClick={() => onDelete(t.id)} className="text-gray-400 hover:text-gray-600">
+                <Trash2 size={15} />
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   )
 }
