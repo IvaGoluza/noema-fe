@@ -4,13 +4,14 @@ interface Props {
   options: { value: string; label: string }[]
   placeholder?: string
   label?: string
+  className?: string
 }
 
-export default function Select({ value, onChange, options, placeholder, label }: Props) {
+export default function Select({ value, onChange, options, placeholder, label, className }: Props) {
   return (
-    <div>
+    <div className={className}>
       {label && (
-        <p className="text-xs tracking-widest uppercase font-medium mb-1.5" style={{ color: '#888' }}>
+        <p className="text-xs tracking-widest uppercase font-medium mb-1.5 text-gray-500">
           {label}
         </p>
       )}

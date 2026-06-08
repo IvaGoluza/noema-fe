@@ -4,37 +4,38 @@ import { useNavigate } from 'react-router-dom'
 import homepageIllustration from '../assets/homepage_illustration.png'
 import NoemaLogo from '../components/NoemaLogo'
 import FerBadge from '../components/FerBadge'
+import Button from '../components/ui/Button'
 
 export default function HomePage() {
   const navigate = useNavigate()
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen w-screen bg-white flex flex-col items-center">
       {/* Hero */}
-      <section className="flex flex-col items-center text-center px-6 pt-12 pb-0">
+      <section className="w-full max-w-7xl flex flex-col items-center text-center px-6 pt-12 pb-0">
         <p className="text-xs tracking-[0.18em] uppercase font-medium mb-6 text-gray-400">
           Train your mind to think more clearly
         </p>
         <h1 className="text-5xl font-semibold leading-tight mb-6 max-w-2/3 font-serif text-navy-950">
           Noema: The Art of Rational Thought
         </h1>
-        <p className="leading-relaxed mb-4 max-w-xl text-gray-600">
+        <p className="leading-relaxed mb-4 text-gray-600">
           Explore your automatic thoughts, identify cognitive distortions, and learn reframing techniques.
         </p>
-        <p className="text-sm leading-relaxed mb-8 max-w-xl text-gray-500">
+        <p className="text-sm leading-relaxed mb-8 text-gray-500">
           Built to promote self-awareness and learning.<br />
           Intended for support and guidance, not a substitute for professional mental health care.
         </p>
-        <button
+        <Button
           onClick={() => navigate('/rationalization/1')}
-          className="px-10 py-4 rounded-2xl font-bold text-white mb-10 bg-navy-950"
+          className="px-10 py-4 rounded-2xl text-md mb-10"
         >
           Start Session
-        </button>
+        </Button>
         <HeroIllustration />
       </section>
 
       {/* Three-stage journey */}
-      <section className="px-8 py-24 bg-gray-50">
+      <section className="w-full px-8 py-24 bg-gray-50">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-2xl font-semibold mb-10 font-serif text-navy-950">
             A three-stage journey toward cognitive clarity
@@ -78,7 +79,7 @@ export default function HomePage() {
       </div>
 
       {/* Footer */}
-      <footer className="px-24 pt-40 pb-16 bg-gray-50">
+      <footer className="w-full px-24 pt-40 pb-16 bg-gray-50">
         <div className="mb-12">
           <NoemaLogo />
           <p className="text-xs mt-2 text-gray-500">A cognitive rationalization platform.</p>

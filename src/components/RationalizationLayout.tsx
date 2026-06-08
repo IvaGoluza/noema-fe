@@ -11,6 +11,7 @@ interface Props {
   rightPanel?: ReactNode
   onNext: () => void
   onPrevious?: () => void
+  footerNote?: string
   children: ReactNode
 }
 
@@ -21,6 +22,7 @@ export default function RationalizationLayout({
   rightPanel,
   onNext,
   onPrevious,
+  footerNote,
   children,
 }: Props) {
   const hasRightPanel = rightPanel !== undefined
@@ -68,6 +70,11 @@ export default function RationalizationLayout({
                 </button>
               )}
             </div>
+            {footerNote && (
+              <span className="text-tiny tracking-widest uppercase text-gray-400 font-medium">
+                {footerNote}
+              </span>
+            )}
             <button
               onClick={onNext}
               className="flex items-center gap-2 px-6 py-3 rounded-2xl border text-sm font-medium text-navy-950 border-navy-950"

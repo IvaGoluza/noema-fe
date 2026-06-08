@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Pencil, Trash2 } from 'lucide-react'
 import RationalizationLayout from '../components/RationalizationLayout'
 import TextArea from '../components/ui/TextArea'
+import Button from '../components/ui/Button'
 
 interface Thought {
   id: number
@@ -75,7 +76,7 @@ export default function RationalizationStep3Page() {
         </div>
 
         {/* Degree of belief */}
-        <div className="mb-7 max-w-lg">
+        <div className="mb-7 max-w-md">
           <p className="text-xs text-navy-950 tracking-widest uppercase font-medium mb-1">
             Degree of belief
           </p>
@@ -106,18 +107,12 @@ export default function RationalizationStep3Page() {
 
         {/* Actions */}
         <div className="flex items-center gap-3">
-          <button
-            onClick={saveThought}
-            className="px-5 py-2.5 rounded-xl text-sm font-medium bg-navy-950 text-white"
-          >
+          <Button onClick={saveThought}>
             {editingId !== null ? 'Update thought' : 'Save the thought'}
-          </button>
-          <button
-            onClick={cancel}
-            className="px-5 py-2.5 rounded-xl text-sm font-medium border border-gray-400 text-gray-600"
-          >
+          </Button>
+          <Button variant="outline" onClick={cancel}>
             Cancel
-          </button>
+          </Button>
         </div>
       </div>
     </RationalizationLayout>
