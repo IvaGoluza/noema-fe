@@ -4,6 +4,7 @@ import { Pencil, Trash2 } from 'lucide-react'
 import RationalizationLayout from '../components/RationalizationLayout'
 import TextArea from '../components/ui/TextArea'
 import Button from '../components/ui/Button'
+import Slider from '../components/ui/Slider'
 
 interface Thought {
   id: number
@@ -83,25 +84,13 @@ export default function RationalizationStep3Page() {
           <p className="text-sm text-purple-500 mb-3">
             Choose how much you believe in the truthfulness of this thought
           </p>
-          <div className="relative h-3 mb-1">
-            <div className="absolute top-1/2 -translate-y-1/2 w-full h-1.5 rounded-full bg-gray-200" />
-            <div
-              className="absolute top-1/2 -translate-y-1/2 h-1.5 rounded-full bg-linear-to-r from-cyan-400 to-blue-400"
-              style={{ width: `${belief}%` }}
-            />
-            <div
-              className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-blue-500 shadow-sm pointer-events-none"
-              style={{ left: `calc(${belief}% - 6px)` }}
-            />
-            <input
-              type="range"
-              min={0}
-              max={100}
-              value={belief}
-              onChange={e => setBelief(Number(e.target.value))}
-              className="absolute inset-0 w-full opacity-0 cursor-pointer"
-            />
-          </div>
+          <Slider
+            value={belief}
+            onChange={setBelief}
+            fillClassName="bg-linear-to-r from-cyan-400 to-blue-400"
+            dotClassName="bg-blue-500"
+            className="h-3 mb-1"
+          />
           <p className="text-sm font-bold text-blue-600 text-right">{belief}%</p>
         </div>
 

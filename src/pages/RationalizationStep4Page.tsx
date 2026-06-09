@@ -96,7 +96,7 @@ function ThoughtAccordion({
       triggerClassName="px-4 py-3 bg-white hover:bg-gray-50"
       bodyClassName="px-4 pb-4 bg-white border-t border-gray-100"
       trigger={
-        <span className="text-sm italic pr-3" style={{ color: '#041627' }}>
+        <span className="text-sm pr-3" style={{ color: '#041627' }}>
           {thought.content}
         </span>
       }
