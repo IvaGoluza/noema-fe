@@ -8,19 +8,38 @@ import Button from '../components/ui/Button'
 import { useRationalizationStore } from '../store/rationalizationStore'
 import type { Emotion } from '../types/rationalization'
 
+interface EmotionGroup {
+  coreName: string
+  coreColor: string
+  emotions: Emotion[]
+}
+
+function groupByCore(emotions: Emotion[]): EmotionGroup[] {
+  const map = new Map<string, EmotionGroup>()
+  for (const e of emotions) {
+    if (!map.has(e.coreName)) {
+      map.set(e.coreName, { coreName: e.coreName, coreColor: e.coreColor, emotions: [] })
+    }
+    map.get(e.coreName)!.emotions.push(e)
+  }
+  return Array.from(map.values())
+}
+
 function emotionsToChart(emotions: Emotion[]): {
   config: ChartConfig
   data: { name: string; value: number; fill: string }[]
+  groups: EmotionGroup[]
 } {
+  const groups = groupByCore(emotions)
   const config: ChartConfig = {}
   const data: { name: string; value: number; fill: string }[] = []
-  emotions.forEach((leaf, i) => {
-    const label = leaf.tertiaryName || leaf.secondaryName
-    const key = `emotion_${i}`
-    config[key] = { label, color: leaf.coreColor }
-    data.push({ name: key, value: leaf.intensity, fill: leaf.coreColor })
+  groups.forEach((group) => {
+    const key = `core_${group.coreName}`
+    const total = group.emotions.reduce((sum, e) => sum + e.intensity, 0)
+    config[key] = { label: group.coreName, color: group.coreColor }
+    data.push({ name: key, value: total, fill: group.coreColor })
   })
-  return { config, data }
+  return { config, data, groups }
 }
 
 export default function RationalizationStep7Page() {
@@ -66,6 +85,7 @@ export default function RationalizationStep7Page() {
                 subtitle="Emotions before rationalization process"
                 config={initial.config}
                 data={initial.data}
+                groups={initial.groups}
               />
             ) : (
               <EmptyChart title="Initial Emotions" subtitle="Emotions before rationalization process" />
@@ -77,6 +97,7 @@ export default function RationalizationStep7Page() {
                 subtitle="Emotions after rationalization process"
                 config={current.config}
                 data={current.data}
+                groups={current.groups}
               />
             ) : (
               <EmptyChart title="Current Emotions" subtitle="Emotions after rationalization process" />
@@ -121,14 +142,16 @@ function EmotionChart({
   subtitle,
   config,
   data,
+  groups,
 }: {
   title: string
   subtitle: string
   config: ChartConfig
   data: { name: string; value: number; fill: string }[]
+  groups: EmotionGroup[]
 }) {
   return (
-    <div className="flex-1 flex flex-col items-center text-center">
+    <div className="flex-1 flex flex-col items-center text-center py-4">
       <h2 className="font-semibold text-lg mb-1" style={{ fontFamily: 'Noto Serif, serif' }}>
         {title}
       </h2>
@@ -138,11 +161,33 @@ function EmotionChart({
           <Pie data={data} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={90} />
         </PieChart>
       </ChartContainer>
-      <div className="flex flex-wrap justify-center gap-x-4 gap-y-1.5 pt-2">
+      <div className="flex flex-wrap justify-center gap-x-4 gap-y-1.5 pt-2 mb-6">
         {data.map((entry) => (
           <div key={entry.name} className="flex items-center gap-1.5">
             <div className="h-2 w-2 shrink-0 rounded-xs" style={{ backgroundColor: entry.fill }} />
             <span className="text-xs text-muted-foreground">{config[entry.name]?.label}</span>
+          </div>
+        ))}
+      </div>
+      <div className="w-[50%] text-left space-y-3 mt-4">
+        <div className="flex items-center justify-between mb-1 border-b border-gray-200 pb-1">
+          <span className="text-xs font-semibold text-gray-400 uppercase tracking-wide">Emotion</span>
+          <span className="text-xs font-semibold text-gray-400 uppercase tracking-wide">Intensity</span>
+        </div>
+        {groups.map((group) => (
+          <div key={group.coreName}>
+            <div className="flex items-center gap-1.5 mb-1">
+              <div className="h-2 w-2 shrink-0 rounded-xs" style={{ backgroundColor: group.coreColor }} />
+              <span className="text-xs font-semibold text-gray-700">{group.coreName}</span>
+            </div>
+            <div className="pl-3.5 space-y-0.5">
+              {group.emotions.map((e) => (
+                <div key={`${e.secondaryName}-${e.tertiaryName}`} className="flex items-center justify-between">
+                  <span className="text-xs text-gray-500">{e.tertiaryName || e.secondaryName}</span>
+                  <span className="text-xs text-gray-500">{e.intensity}%</span>
+                </div>
+              ))}
+            </div>
           </div>
         ))}
       </div>
