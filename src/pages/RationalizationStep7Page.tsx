@@ -45,9 +45,18 @@ function emotionsToChart(emotions: Emotion[]): {
   return { config, data, groups }
 }
 
+function loadImage(dataUrl: string): Promise<HTMLImageElement> {
+  return new Promise((resolve) => {
+    const img = new Image()
+    img.onload = () => resolve(img)
+    img.src = dataUrl
+  })
+}
+
 export default function RationalizationStep7Page() {
   const navigate = useNavigate()
-  const contentRef = useRef<HTMLDivElement>(null)
+  const chartsRef = useRef<HTMLDivElement>(null)
+  const summaryRef = useRef<HTMLDivElement>(null)
   const initialEmotions = useRationalizationStore((s) => s.initialEmotions)
   const finalEmotions = useRationalizationStore((s) => s.finalEmotions)
   const thoughts = useRationalizationStore((s) => s.thoughts)
@@ -60,21 +69,31 @@ export default function RationalizationStep7Page() {
   const current = emotionsToChart(finalEmotions)
 
   async function exportToPDF() {
-    if (!contentRef.current) return
-    const dataUrl = await toPng(contentRef.current, { pixelRatio: 2 })
-    const img = new Image()
-    img.src = dataUrl
-    await new Promise<void>((resolve) => { img.onload = () => resolve() })
+    if (!chartsRef.current || !summaryRef.current) return
+    const [chartsUrl, summaryUrl] = await Promise.all([
+      toPng(chartsRef.current, { pixelRatio: 2, skipFonts: true }),
+      toPng(summaryRef.current, { pixelRatio: 2, skipFonts: true }),
+    ])
+    const [chartsImg, summaryImg] = await Promise.all([loadImage(chartsUrl), loadImage(summaryUrl)])
+
+    const margin = 24
+    const headerHeight = 36
     const pdf = new jsPDF({ orientation: 'portrait', unit: 'px', format: 'a4' })
     const pageWidth = pdf.internal.pageSize.getWidth()
-    const pageHeight = pdf.internal.pageSize.getHeight()
-    const imgHeight = (img.height * pageWidth) / img.width
-    let y = 0
-    while (y < imgHeight) {
-      if (y > 0) pdf.addPage()
-      pdf.addImage(dataUrl, 'PNG', 0, -y, pageWidth, imgHeight)
-      y += pageHeight
-    }
+    const usableWidth = pageWidth - margin * 2
+
+    // Page 1: header + charts
+    pdf.setFont('helvetica', 'bold')
+    pdf.setFontSize(16)
+    pdf.text('Rationalization with Noema', margin, margin + 14)
+    const chartsH = (chartsImg.height * usableWidth) / chartsImg.width
+    pdf.addImage(chartsUrl, 'PNG', margin, margin + headerHeight, usableWidth, chartsH)
+
+    // Page 2: summary
+    pdf.addPage()
+    const summaryH = (summaryImg.height * usableWidth) / summaryImg.width
+    pdf.addImage(summaryUrl, 'PNG', margin, margin, usableWidth, summaryH)
+
     pdf.save('rationalization-summary.pdf')
   }
 
@@ -86,7 +105,7 @@ export default function RationalizationStep7Page() {
   return (
     <div className="min-h-screen flex flex-col text-navy-950" style={{ fontFamily: 'Inter, sans-serif' }}>
       <div className="flex-1 bg-white px-10 py-10">
-        <div className="max-w-4xl mx-auto" ref={contentRef}>
+        <div className="max-w-4xl mx-auto">
           <div className="flex items-start justify-between mb-2">
             <div>
               <p className="text-xs text-gray-500 tracking-widest uppercase font-medium mb-1">
@@ -103,7 +122,7 @@ export default function RationalizationStep7Page() {
             <div className="h-1 w-full bg-purple-800" />
           </div>
 
-          <div className="rounded-2xl p-6 mb-4 flex items-start gap-6 bg-gray-50">
+          <div ref={chartsRef} className="rounded-2xl p-6 mb-4 flex items-start gap-6 bg-gray-50">
             {initial.data.length > 0 ? (
               <EmotionChart
                 title="Initial Emotions"
@@ -129,7 +148,9 @@ export default function RationalizationStep7Page() {
             )}
           </div>
 
-          <Summary when={when} situation={situation} thoughts={thoughts} />
+          <div ref={summaryRef}>
+            <Summary when={when} situation={situation} thoughts={thoughts} />
+          </div>
 
           <div className="flex items-center justify-center gap-4 mb-10">
             <Button variant="primary" onClick={exportToPDF} className="px-8 py-3 rounded-2xl font-semibold">
