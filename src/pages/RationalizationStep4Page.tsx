@@ -161,7 +161,7 @@ function DistortionAccordion({ distortion }: { distortion: Distortion }) {
         <p className="text-xs font-semibold mb-0.5" style={{ color: '#c45a2a' }}>
           Automatic Thought
         </p>
-        <p className="text-xs italic" style={{ color: '#7a3515' }}>
+        <p className="text-xs" style={{ color: '#7a3515' }}>
           {distortion.automaticThought}
         </p>
       </div>
@@ -169,7 +169,7 @@ function DistortionAccordion({ distortion }: { distortion: Distortion }) {
         <p className="text-xs font-semibold mb-0.5" style={{ color: '#2e7d32' }}>
           Healthy Reframe
         </p>
-        <p className="text-xs italic" style={{ color: '#1b5e20' }}>
+        <p className="text-xs" style={{ color: '#1b5e20' }}>
           {distortion.healthyReframe}
         </p>
       </div>
