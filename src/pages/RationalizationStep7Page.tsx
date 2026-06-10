@@ -6,7 +6,7 @@ import {
 } from '../components/ui/chart'
 import Button from '../components/ui/Button'
 import { useRationalizationStore } from '../store/rationalizationStore'
-import type { Emotion } from '../types/rationalization'
+import type { Emotion, SessionThought } from '../types/rationalization'
 
 interface EmotionGroup {
   coreName: string
@@ -49,9 +49,11 @@ export default function RationalizationStep7Page() {
   const thoughts = useRationalizationStore((s) => s.thoughts)
   const reset = useRationalizationStore((s) => s.reset)
 
+  const when = useRationalizationStore((s) => s.when)
+  const situation = useRationalizationStore((s) => s.situation)
+
   const initial = emotionsToChart(initialEmotions)
   const current = emotionsToChart(finalEmotions)
-  const reframes = thoughts.filter((t) => t.reframe).map((t) => t.reframe)
 
   function completeSession() {
     reset()
@@ -78,7 +80,7 @@ export default function RationalizationStep7Page() {
             <div className="h-1 w-full bg-purple-800" />
           </div>
 
-          <div className="rounded-2xl p-6 mb-4 flex items-start gap-6" style={{ backgroundColor: '#F4F4F6' }}>
+          <div className="rounded-2xl p-6 mb-4 flex items-start gap-6 bg-gray-50">
             {initial.data.length > 0 ? (
               <EmotionChart
                 title="Initial Emotions"
@@ -104,20 +106,7 @@ export default function RationalizationStep7Page() {
             )}
           </div>
 
-          <div className="rounded-2xl p-6 mb-10" style={{ backgroundColor: '#F4F4F6' }}>
-            <h2 className="font-semibold text-lg mb-3" style={{ fontFamily: 'Noto Serif, serif' }}>
-              Summary
-            </h2>
-            {reframes.length === 0 ? (
-              <p className="text-sm text-gray-400 italic">No reframes recorded yet.</p>
-            ) : (
-              reframes.map((reframe, i) => (
-                <p key={i} className="text-sm text-navy-950 leading-relaxed mb-2 last:mb-0">
-                  {reframe}
-                </p>
-              ))
-            )}
-          </div>
+          <Summary when={when} situation={situation} thoughts={thoughts} />
 
           <div className="flex items-center justify-center gap-4 mb-10">
             <Button variant="primary" className="px-8 py-3 rounded-2xl font-semibold">
@@ -203,6 +192,70 @@ function EmptyChart({ title, subtitle }: { title: string; subtitle: string }) {
       </h2>
       <p className="text-xs text-gray-500 mb-4">{subtitle}</p>
       <p className="text-sm text-gray-400 italic">No emotions selected</p>
+    </div>
+  )
+}
+
+function formatWhen(value: string): string {
+  const date = new Date(value)
+  if (isNaN(date.getTime())) return value
+  return date.toLocaleString('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  })
+}
+
+function Summary({ when, situation, thoughts }: { when: string; situation: string; thoughts: SessionThought[] }) {
+  const isEmpty = !when && !situation && thoughts.length === 0
+  return (
+    <div className="rounded-2xl p-10 mb-10 space-y-8 bg-gray-50">
+      <div className="flex justify-between align-bottom">
+        <h2 className="font-semibold text-xl" style={{ fontFamily: 'Noto Serif, serif' }}>
+          Summary
+        </h2>
+        {when && <span className="text-sm text-gray-500">{formatWhen(when)}</span>}
+      </div>
+      {situation && (
+        <div className="text-navy-950">
+          <h3 className="font-semibold text-lg" style={{ fontFamily: 'Noto Serif, serif' }}>Situation</h3>
+          <p className="pt-2">{situation}</p>
+        </div>
+      )}
+      {thoughts.length > 0 && (
+        <div>
+          <p className="text-navy-950 font-semibold text-lg" style={{ fontFamily: 'Noto Serif, serif' }}>Thoughts</p>
+          {thoughts.map((t) => <ThoughtCard key={t.id} thought={t} />)}
+        </div>
+      )}
+      {isEmpty && <p className="text-sm text-gray-400 italic">No data recorded.</p>}
+    </div>
+  )
+}
+
+function ThoughtCard({ thought }: { thought: SessionThought }) {
+  return (
+    <div className="flex flex-col gap-2 text-normal py-4 border-b border-b-purple-100">
+      <SummaryField label="Thought" value={thought.content} />
+      <SummaryField label="Belief" value={`${thought.beliefBefore}%`} />
+      {thought.distortion && <SummaryField label="Cognitive distortion" value={thought.distortion} />}
+      {thought.reframe && (
+        <>
+          <SummaryField label="Reframe" value={thought.reframe} />
+          <SummaryField label="Reframe belief" value={`${thought.beliefAfter}%`} />
+        </>
+      )}
+    </div>
+  )
+}
+
+function SummaryField({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex flex-col items-start">
+      <p className="text-gray-400 text-xs font-semibold uppercase tracking-wide">{label}</p>
+      <p className="text-navy-950">{value}</p>
     </div>
   )
 }
