@@ -1,4 +1,4 @@
-export interface SelectedLeaf {
+export interface Emotion {
   coreName: string
   coreColor: string
   secondaryName: string
@@ -6,6 +6,15 @@ export interface SelectedLeaf {
   intensity: number
 }
 
-export function leafKey(leaf: Pick<SelectedLeaf, 'coreName' | 'secondaryName' | 'tertiaryName'>) {
-  return `${leaf.coreName}::${leaf.secondaryName}::${leaf.tertiaryName}`
+export function emotionKey(emotion: Pick<Emotion, 'coreName' | 'secondaryName' | 'tertiaryName'>) {
+  return `${emotion.coreName}::${emotion.secondaryName}::${emotion.tertiaryName}`
+}
+
+export interface SessionThought {
+  id: number
+  content: string
+  beliefBefore: number
+  distortion: string
+  reframe: string
+  beliefAfter: number
 }

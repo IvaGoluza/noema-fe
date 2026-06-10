@@ -1,32 +1,42 @@
-import { useState } from 'react'
 import RationalizationLayout from './RationalizationLayout'
 import EmotionPicker from './EmotionPicker'
 import EmotionIntensityPanel from './EmotionIntensityPanel'
-import type { SelectedLeaf } from '../types/rationalization'
-import { leafKey } from '../types/rationalization'
+import type { Emotion } from '../types/rationalization'
+import { emotionKey } from '../types/rationalization'
 
 interface Props {
   title: string
   subtitle: string
   stepNumber: number
-  onPrevious: () => void
+  selectedEmotions: Emotion[]
+  onSelectedEmotionsChange: (leaves: Emotion[]) => void
+  onPrevious?: () => void
   onNext: () => void
 }
 
-export default function EmotionSelectionStep({ title, subtitle, stepNumber, onPrevious, onNext }: Props) {
-  const [selectedLeaves, setSelectedLeaves] = useState<SelectedLeaf[]>([])
-
-  function toggleLeaf(leaf: Omit<SelectedLeaf, 'intensity'>) {
-    const key = leafKey(leaf)
-    setSelectedLeaves(prev => {
-      const exists = prev.some(l => leafKey(l) === key)
-      if (exists) return prev.filter(l => leafKey(l) !== key)
-      return [...prev, { ...leaf, intensity: 50 }]
-    })
+export default function EmotionSelectionStep({
+  title,
+  subtitle,
+  stepNumber,
+  selectedEmotions,
+  onSelectedEmotionsChange,
+  onPrevious,
+  onNext,
+}: Props) {
+  function toggleLeaf(leaf: Omit<Emotion, 'intensity'>) {
+    const key = emotionKey(leaf)
+    const exists = selectedEmotions.some((l) => emotionKey(l) === key)
+    if (exists) {
+      onSelectedEmotionsChange(selectedEmotions.filter((l) => emotionKey(l) !== key))
+    } else {
+      onSelectedEmotionsChange([...selectedEmotions, { ...leaf, intensity: 50 }])
+    }
   }
 
   function changeIntensity(key: string, intensity: number) {
-    setSelectedLeaves(prev => prev.map(l => leafKey(l) === key ? { ...l, intensity } : l))
+    onSelectedEmotionsChange(
+      selectedEmotions.map((l) => (emotionKey(l) === key ? { ...l, intensity } : l))
+    )
   }
 
   return (
@@ -36,14 +46,14 @@ export default function EmotionSelectionStep({ title, subtitle, stepNumber, onPr
       stepNumber={stepNumber}
       rightPanel={
         <EmotionIntensityPanel
-          selectedLeaves={selectedLeaves}
+          selectedLeaves={selectedEmotions}
           onIntensityChange={changeIntensity}
         />
       }
       onPrevious={onPrevious}
       onNext={onNext}
     >
-      <EmotionPicker selectedLeaves={selectedLeaves} onToggleLeaf={toggleLeaf} />
+      <EmotionPicker selectedLeaves={selectedEmotions} onToggleLeaf={toggleLeaf} />
     </RationalizationLayout>
   )
 }

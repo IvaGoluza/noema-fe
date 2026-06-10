@@ -1,14 +1,16 @@
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import RationalizationLayout from '../components/RationalizationLayout'
 import SectionBlock from '../components/SectionBlock'
 import DateTimePicker from '../components/ui/DateTimePicker'
 import TextArea from '../components/ui/TextArea'
+import { useRationalizationStore } from '../store/rationalizationStore'
 
 export default function RationalizationStep1Page() {
   const navigate = useNavigate()
-  const [when, setWhen] = useState('')
-  const [situation, setSituation] = useState('')
+  const when = useRationalizationStore((s) => s.when)
+  const situation = useRationalizationStore((s) => s.situation)
+  const setWhen = useRationalizationStore((s) => s.setWhen)
+  const setSituation = useRationalizationStore((s) => s.setSituation)
 
   return (
     <RationalizationLayout

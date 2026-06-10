@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { EMOTIONS, lighten } from '../data/emotions'
-import type { SelectedLeaf } from '../types/rationalization'
-import { leafKey } from '../types/rationalization'
+import type { Emotion } from '../types/rationalization'
+import { emotionKey } from '../types/rationalization'
 
 interface Props {
-  selectedLeaves: SelectedLeaf[]
-  onToggleLeaf: (leaf: Omit<SelectedLeaf, 'intensity'>) => void
+  selectedLeaves: Emotion[]
+  onToggleLeaf: (leaf: Omit<Emotion, 'intensity'>) => void
 }
 
 export default function EmotionPicker({ selectedLeaves, onToggleLeaf }: Props) {
@@ -13,7 +13,7 @@ export default function EmotionPicker({ selectedLeaves, onToggleLeaf }: Props) {
   const [lastPath, setLastPath] = useState<string | null>(null)
 
   const core = EMOTIONS.find(e => e.name === activeCore)!
-  const selectedKeys = new Set(selectedLeaves.map(leafKey))
+  const selectedKeys = new Set(selectedLeaves.map(emotionKey))
 
   function isSecondaryHighlighted(secondaryName: string) {
     return selectedLeaves.some(l => l.coreName === activeCore && l.secondaryName === secondaryName && l.tertiaryName === '')
@@ -86,7 +86,7 @@ export default function EmotionPicker({ selectedLeaves, onToggleLeaf }: Props) {
 
               {/* Cols 2–3: tertiary (leaf) */}
               {secondary.children.map(tertiary => {
-                const key = leafKey({ coreName: core.name, secondaryName: secondary.name, tertiaryName: tertiary.name })
+                const key = emotionKey({ coreName: core.name, secondaryName: secondary.name, tertiaryName: tertiary.name })
                 const isSelected = selectedKeys.has(key)
                 return (
                   <button

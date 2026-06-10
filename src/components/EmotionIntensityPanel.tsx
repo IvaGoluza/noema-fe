@@ -5,17 +5,17 @@ import {
   ChartLegendContent,
   type ChartConfig,
 } from '@/components/ui/chart'
-import type { SelectedLeaf } from '../types/rationalization'
-import { leafKey } from '../types/rationalization'
+import type { Emotion } from '../types/rationalization'
+import { emotionKey } from '../types/rationalization'
 
 interface Props {
-  selectedLeaves: SelectedLeaf[]
+  selectedLeaves: Emotion[]
   onIntensityChange: (key: string, intensity: number) => void
 }
 
 export default function EmotionIntensityPanel({ selectedLeaves, onIntensityChange }: Props) {
   // Group by core emotion
-  const groups = selectedLeaves.reduce<Record<string, SelectedLeaf[]>>((acc, leaf) => {
+  const groups = selectedLeaves.reduce<Record<string, Emotion[]>>((acc, leaf) => {
     if (!acc[leaf.coreName]) acc[leaf.coreName] = []
     acc[leaf.coreName].push(leaf)
     return acc
@@ -52,7 +52,7 @@ export default function EmotionIntensityPanel({ selectedLeaves, onIntensityChang
           <div key={coreName} className="mb-4">
             <p className="text-xs font-semibold mb-2" style={{ color: '#041627' }}>{coreName}</p>
             {leaves.map(leaf => (
-              <div key={leafKey(leaf)} className="mb-3">
+              <div key={emotionKey(leaf)} className="mb-3">
                 <div className="flex justify-between items-center text-xs text-gray-600 mb-1">
                   <span>{leaf.tertiaryName || leaf.secondaryName}</span>
                   <span className="font-medium">{leaf.intensity}%</span>
@@ -76,7 +76,7 @@ export default function EmotionIntensityPanel({ selectedLeaves, onIntensityChang
                     min={0}
                     max={100}
                     value={leaf.intensity}
-                    onChange={e => onIntensityChange(leafKey(leaf), Number(e.target.value))}
+                    onChange={e => onIntensityChange(emotionKey(leaf), Number(e.target.value))}
                     className="absolute inset-0 w-full opacity-0 cursor-pointer"
                   />
                 </div>

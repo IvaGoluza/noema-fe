@@ -5,46 +5,47 @@ import RationalizationLayout from '../components/RationalizationLayout'
 import TextArea from '../components/ui/TextArea'
 import Button from '../components/ui/Button'
 import Slider from '../components/ui/Slider'
-
-interface Thought {
-  id: number
-  content: string
-  belief: number
-}
+import { useRationalizationStore } from '../store/rationalizationStore'
+import type { SessionThought } from '@/types/rationalization'
 
 export default function RationalizationStep3Page() {
+  const DEFAULT_SLIDER_VALUE = 50
   const navigate = useNavigate()
-  const [thoughts, setThoughts] = useState<Thought[]>([])
+  const thoughts = useRationalizationStore((s) => s.thoughts)
+  const addThought = useRationalizationStore((s) => s.addThought)
+  const updateThought = useRationalizationStore((s) => s.updateThought)
+  const deleteThought = useRationalizationStore((s) => s.deleteThought)
+
   const [content, setContent] = useState('')
-  const [belief, setBelief] = useState(60)
+  const [belief, setBelief] = useState(DEFAULT_SLIDER_VALUE)
   const [editingId, setEditingId] = useState<number | null>(null)
 
   function saveThought() {
     if (!content.trim()) return
     if (editingId !== null) {
-      setThoughts(prev => prev.map(t => t.id === editingId ? { ...t, content, belief } : t))
+      updateThought(editingId, { content, beliefBefore: belief })
       setEditingId(null)
     } else {
-      setThoughts(prev => [...prev, { id: Date.now(), content, belief }])
+      addThought(content, belief)
     }
     setContent('')
-    setBelief(60)
+    setBelief(DEFAULT_SLIDER_VALUE)
   }
 
   function cancel() {
     setContent('')
-    setBelief(60)
+    setBelief(DEFAULT_SLIDER_VALUE)
     setEditingId(null)
   }
 
-  function startEdit(t: Thought) {
+  function startEdit(t: SessionThought) {
     setEditingId(t.id)
     setContent(t.content)
-    setBelief(t.belief)
+    setBelief(t.beliefBefore)
   }
 
-  function deleteThought(id: number) {
-    setThoughts(prev => prev.filter(t => t.id !== id))
+  function handleDelete(id: number) {
+    deleteThought(id)
     if (editingId === id) cancel()
   }
 
@@ -54,19 +55,18 @@ export default function RationalizationStep3Page() {
       subtitle="Identify the immediate, unfiltered thoughts that occurred during the event"
       stepNumber={3}
       rightPanel={
-        <ThoughtsPanel thoughts={thoughts} onEdit={startEdit} onDelete={deleteThought} />
+        <ThoughtsPanel thoughts={thoughts} onEdit={startEdit} onDelete={handleDelete} />
       }
       onPrevious={() => navigate('/rationalization/2')}
       onNext={() => navigate('/rationalization/4')}
     >
       <div className="pl-5 border-l-3 border-l-purple-100">
-        {/* Thought content */}
         <div className="mb-3 max-w-3xl">
           <p className="text-xs text-navy-950 tracking-widest uppercase font-medium mb-1">
             Thought content
           </p>
           <p className="text-sm text-purple-500 mb-3">
-           These often appear as lightning-fast judgments and thoughts
+            These often appear as lightning-fast judgments and thoughts
           </p>
           <TextArea
             value={content}
@@ -76,7 +76,6 @@ export default function RationalizationStep3Page() {
           />
         </div>
 
-        {/* Degree of belief */}
         <div className="mb-7 max-w-md">
           <p className="text-xs text-navy-950 tracking-widest uppercase font-medium mb-1">
             Degree of belief
@@ -94,7 +93,6 @@ export default function RationalizationStep3Page() {
           <p className="text-sm font-bold text-blue-600 text-right">{belief}%</p>
         </div>
 
-        {/* Actions */}
         <div className="flex items-center gap-3">
           <Button onClick={saveThought}>
             {editingId !== null ? 'Update thought' : 'Save the thought'}
@@ -108,9 +106,13 @@ export default function RationalizationStep3Page() {
   )
 }
 
-function ThoughtsPanel({ thoughts, onEdit, onDelete }: {
-  thoughts: Thought[]
-  onEdit: (t: Thought) => void
+function ThoughtsPanel({
+  thoughts,
+  onEdit,
+  onDelete,
+}: {
+  thoughts: SessionThought[]
+  onEdit: (t: SessionThought) => void
   onDelete: (id: number) => void
 }) {
   return (
@@ -126,14 +128,14 @@ function ThoughtsPanel({ thoughts, onEdit, onDelete }: {
         {thoughts.length === 0 && (
           <p className="text-sm text-gray-400">No thoughts saved yet.</p>
         )}
-        {thoughts.map(t => (
+        {thoughts.map((t) => (
           <div
             key={t.id}
             className="bg-white rounded-lg px-4 py-3 flex items-start justify-between gap-3"
           >
             <div>
               <p className="text-xs text-sky-600 font-semibold uppercase tracking-wide">
-                Belief: {t.belief}%
+                Belief: {t.beliefBefore}%
               </p>
               <p className="text-sm text-navy-950 mb-1">{t.content}</p>
             </div>
