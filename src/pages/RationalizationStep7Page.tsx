@@ -298,7 +298,7 @@ function ThoughtCard({ thought }: { thought: SessionThought }) {
 function SummaryField({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-col items-start">
-      <p className="text-gray-400 text-xs font-semibold uppercase tracking-wide">{label}</p>
+      <p className="text-gray-400 text-xs font-semibold uppercase tracking-wide whitespace-nowrap">{label}</p>
       <p className="text-navy-950">{value}</p>
     </div>
   )
