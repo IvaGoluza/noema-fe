@@ -30,7 +30,7 @@ export default function Accordion({
         {trigger}
         <ChevronDown
           size={16}
-          className="flex-shrink-0 transition-transform duration-200"
+          className="shrink-0 transition-transform duration-200"
           style={{ transform: open ? 'rotate(180deg)' : 'rotate(0deg)', color: '#6b6b8a' }}
         />
       </button>
