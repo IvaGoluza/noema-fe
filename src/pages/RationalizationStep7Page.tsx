@@ -1,5 +1,8 @@
+import { useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { PieChart, Pie } from 'recharts'
+import { toPng } from 'html-to-image'
+import jsPDF from 'jspdf'
 import {
   ChartContainer,
   type ChartConfig,
@@ -44,6 +47,7 @@ function emotionsToChart(emotions: Emotion[]): {
 
 export default function RationalizationStep7Page() {
   const navigate = useNavigate()
+  const contentRef = useRef<HTMLDivElement>(null)
   const initialEmotions = useRationalizationStore((s) => s.initialEmotions)
   const finalEmotions = useRationalizationStore((s) => s.finalEmotions)
   const thoughts = useRationalizationStore((s) => s.thoughts)
@@ -55,6 +59,25 @@ export default function RationalizationStep7Page() {
   const initial = emotionsToChart(initialEmotions)
   const current = emotionsToChart(finalEmotions)
 
+  async function exportToPDF() {
+    if (!contentRef.current) return
+    const dataUrl = await toPng(contentRef.current, { pixelRatio: 2 })
+    const img = new Image()
+    img.src = dataUrl
+    await new Promise<void>((resolve) => { img.onload = () => resolve() })
+    const pdf = new jsPDF({ orientation: 'portrait', unit: 'px', format: 'a4' })
+    const pageWidth = pdf.internal.pageSize.getWidth()
+    const pageHeight = pdf.internal.pageSize.getHeight()
+    const imgHeight = (img.height * pageWidth) / img.width
+    let y = 0
+    while (y < imgHeight) {
+      if (y > 0) pdf.addPage()
+      pdf.addImage(dataUrl, 'PNG', 0, -y, pageWidth, imgHeight)
+      y += pageHeight
+    }
+    pdf.save('rationalization-summary.pdf')
+  }
+
   function completeSession() {
     reset()
     navigate('/')
@@ -63,7 +86,7 @@ export default function RationalizationStep7Page() {
   return (
     <div className="min-h-screen flex flex-col text-navy-950" style={{ fontFamily: 'Inter, sans-serif' }}>
       <div className="flex-1 bg-white px-10 py-10">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-4xl mx-auto" ref={contentRef}>
           <div className="flex items-start justify-between mb-2">
             <div>
               <p className="text-xs text-gray-500 tracking-widest uppercase font-medium mb-1">
@@ -109,7 +132,7 @@ export default function RationalizationStep7Page() {
           <Summary when={when} situation={situation} thoughts={thoughts} />
 
           <div className="flex items-center justify-center gap-4 mb-10">
-            <Button variant="primary" className="px-8 py-3 rounded-2xl font-semibold">
+            <Button variant="primary" onClick={exportToPDF} className="px-8 py-3 rounded-2xl font-semibold">
               Export to PDF
             </Button>
             <Button
@@ -190,7 +213,7 @@ function EmptyChart({ title, subtitle }: { title: string; subtitle: string }) {
       <h2 className="font-semibold text-lg mb-1" style={{ fontFamily: 'Noto Serif, serif' }}>
         {title}
       </h2>
-      <p className="text-xs text-gray-500 mb-4">{subtitle}</p>
+      <p className="text-sm text-gray-500 mb-4">{subtitle}</p>
       <p className="text-sm text-gray-400 italic">No emotions selected</p>
     </div>
   )
