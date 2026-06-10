@@ -144,7 +144,7 @@ function EmotionChart({
       <h2 className="font-semibold text-lg mb-1" style={{ fontFamily: 'Noto Serif, serif' }}>
         {title}
       </h2>
-      <p className="text-xs text-gray-500 mb-2">{subtitle}</p>
+      <p className="text-sm text-gray-500 mb-2">{subtitle}</p>
       <ChartContainer config={config} className="w-full h-52">
         <PieChart>
           <Pie data={data} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={90} />
@@ -154,26 +154,26 @@ function EmotionChart({
         {data.map((entry) => (
           <div key={entry.name} className="flex items-center gap-1.5">
             <div className="h-2 w-2 shrink-0 rounded-xs" style={{ backgroundColor: entry.fill }} />
-            <span className="text-xs text-muted-foreground">{config[entry.name]?.label}</span>
+            <span className="text-sm text-muted-foreground">{config[entry.name]?.label}</span>
           </div>
         ))}
       </div>
-      <div className="w-[50%] text-left space-y-3 mt-4">
+      <div className="w-[60%] text-left space-y-3 mt-4">
         <div className="flex items-center justify-between mb-1 border-b border-gray-200 pb-1">
-          <span className="text-xs font-semibold text-gray-400 uppercase tracking-wide">Emotion</span>
-          <span className="text-xs font-semibold text-gray-400 uppercase tracking-wide">Intensity</span>
+          <span className="text-sm font-semibold text-gray-400 uppercase tracking-wide">Emotion</span>
+          <span className="text-sm font-semibold text-gray-400 uppercase tracking-wide">Intensity</span>
         </div>
         {groups.map((group) => (
           <div key={group.coreName}>
             <div className="flex items-center gap-1.5 mb-1">
               <div className="h-2 w-2 shrink-0 rounded-xs" style={{ backgroundColor: group.coreColor }} />
-              <span className="text-xs font-semibold text-gray-700">{group.coreName}</span>
+              <span className="text-sm font-semibold text-gray-700">{group.coreName}</span>
             </div>
             <div className="pl-3.5 space-y-0.5">
               {group.emotions.map((e) => (
                 <div key={`${e.secondaryName}-${e.tertiaryName}`} className="flex items-center justify-between">
-                  <span className="text-xs text-gray-500">{e.tertiaryName || e.secondaryName}</span>
-                  <span className="text-xs text-gray-500">{e.intensity}%</span>
+                  <span className="text-sm text-gray-500">{e.tertiaryName || e.secondaryName}</span>
+                  <span className="text-sm text-gray-500">{e.intensity}%</span>
                 </div>
               ))}
             </div>
