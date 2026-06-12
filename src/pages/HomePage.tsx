@@ -11,15 +11,15 @@ export default function HomePage() {
   return (
     <div className="min-h-screen w-screen bg-white flex flex-col items-center">
       {/* Hero */}
-      <section className="w-full max-w-7xl flex flex-col items-center text-center px-6 pt-12 pb-0">
+      <section className="w-full flex flex-col items-center text-center px-6 pt-12 pb-0">
         <p className="text-xs tracking-[0.18em] uppercase font-medium mb-6 text-gray-400">
           Train your mind to think more clearly
         </p>
         <h1 className="text-5xl font-semibold leading-tight mb-6 max-w-2/3 font-serif text-navy-950">
-          Noema: The Art of Rational Thought
+          Noema: Understand Your Thoughts
         </h1>
-        <p className="leading-relaxed mb-4 text-gray-600">
-          Explore your automatic thoughts, identify cognitive distortions, and learn reframing techniques.
+        <p className="max-w-3xl leading-relaxed mb-4 text-gray-600">
+          Examine the thoughts that run through your mind, spot thinking patterns that may be making you feel worse, and practice more balanced ways of looking at situations.
         </p>
         <p className="text-sm leading-relaxed mb-8 text-gray-500">
           Built to promote self-awareness and learning.<br />
@@ -37,27 +37,27 @@ export default function HomePage() {
       {/* Three-stage journey */}
       <section className="w-full px-8 py-24 bg-gray-50">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-semibold mb-10 font-serif text-navy-950">
-            A three-stage journey toward cognitive clarity
+          <h2 className="text-xl font-semibold mb-10 font-serif text-navy-950">
+            A three-step process for understanding and challenging unhelpful thoughts
           </h2>
           <div className="grid grid-cols-3 gap-4">
             <FeatureCard
               number="01"
               icon={<Eye size={22} />}
-              title="Observe & detect"
-              description="Identify hidden cognitive distortions in your thoughts. Track your emotions."
+              title="Notice"
+              description="Write down what's on your mind and how it makes you feel."
             />
             <FeatureCard
               number="02"
               icon={<Crosshair size={22} />}
-              title="Analyze"
-              description="Classify and understand the exact category of detected distortions."
+              title="Understand"
+              description="Learn which thinking patterns may be influencing your reaction."
             />
             <FeatureCard
               number="03"
               icon={<RefreshCw size={22} />}
-              title="Reframe"
-              description="Construct a balanced, healthier and more rational interpretations of your thoughts."
+              title="Reconsider"
+              description="Practice creating a more balanced and realistic perspective."
             />
           </div>
         </div>
@@ -67,14 +67,14 @@ export default function HomePage() {
         <InfoSection
           icon={<Send size={32} strokeWidth={2} />}
           title="Intelligent Support"
-          body="Noema utilizes trained linguistic models to assist in identifying potential cognitive distortions and suggesting rational reframes."
+          body="Noema uses AI models specifically trained to identify unhelpful thinking patterns and suggest more balanced perspectives."
           note={<>Every AI-generated suggestion is fully editable, and<br />you can override or insert your own insights at any stage of the process.</>}
         />
         <InfoSection
           icon={<Lock size={32} strokeWidth={2} />}
           title="Privacy"
-          body="Your thoughts are yours alone. Noema is designed with a strict privacy-first architecture: data is never persisted to our databases."
-          note="At the conclusion of your session, you have the option to export your full logic thread to a PDF for your personal records."
+          body="Your thoughts stay private. Noema does not store your entries after your session ends."
+          note="If you'd like to keep them, you can export your session as a PDF."
         />
       </div>
 
