@@ -13,17 +13,14 @@ export default function HomePage() {
       {/* Hero */}
       <section className="w-full flex flex-col items-center text-center px-6 pt-12 pb-0">
         <p className="text-xs tracking-[0.18em] uppercase font-medium mb-6 text-gray-400">
-          Train your mind to think more clearly
+          
+          Intended for support and guidance, not a substitute for professional mental health care.
         </p>
         <h1 className="text-5xl font-semibold leading-tight mb-6 max-w-2/3 font-serif text-navy-950">
-          Noema: Understand Your Thoughts
+         Understand Your Thoughts <br/> with Noema
         </h1>
         <p className="max-w-3xl leading-relaxed mb-4 text-gray-600">
           Examine the thoughts that run through your mind, spot thinking patterns that may be making you feel worse, and practice more balanced ways of looking at situations.
-        </p>
-        <p className="text-sm leading-relaxed mb-8 text-gray-500">
-          Built to promote self-awareness and learning.<br />
-          Intended for support and guidance, not a substitute for professional mental health care.
         </p>
         <Button
           onClick={() => navigate('/rationalization/1')}
