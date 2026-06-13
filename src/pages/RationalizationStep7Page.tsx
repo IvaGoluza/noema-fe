@@ -329,6 +329,12 @@ function ThoughtCard({
           value={t(`distortions.${getDistortionKey(thought.distortion)}.name`)}
         />
       )}
+      {thought.evidenceFor && (
+        <SummaryField label={t('step7.thought.evidenceFor')} value={thought.evidenceFor} />
+      )}
+      {thought.evidenceAgainst && (
+        <SummaryField label={t('step7.thought.evidenceAgainst')} value={thought.evidenceAgainst} />
+      )}
       {thought.reframe && (
         <>
           <SummaryField label={t('step7.thought.reframe')} value={thought.reframe} />
