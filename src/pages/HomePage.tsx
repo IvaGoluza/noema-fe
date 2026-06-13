@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { useRef } from 'react'
 import { Eye, Crosshair, RefreshCw, Send, Lock } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import homepageIllustration from '../assets/homepage_illustration.png'
@@ -6,10 +7,32 @@ import NoemaLogo from '../components/NoemaLogo'
 import FerBadge from '../components/FerBadge'
 import Button from '../components/ui/Button'
 import { useT } from '../i18n/useLanguage'
+import { useRationalizationStore } from '../store/rationalizationStore'
+import type { SessionSnapshot } from '../store/rationalizationStore'
 
 export default function HomePage() {
   const navigate = useNavigate()
   const t = useT()
+  const loadSession = useRationalizationStore((s) => s.loadSession)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = (ev) => {
+      try {
+        const data = JSON.parse(ev.target?.result as string) as SessionSnapshot
+        if (data.version !== '1') return
+        loadSession(data)
+        navigate('/rationalization/1')
+      } catch {
+        // invalid file, ignore
+      }
+    }
+    reader.readAsText(file)
+    e.target.value = ''
+  }
 
   return (
     <div className="min-h-screen w-screen bg-white flex flex-col items-center">
@@ -26,12 +49,28 @@ export default function HomePage() {
         <p className="max-w-3xl leading-relaxed mb-4 text-gray-600">
           {t('home.hero.body')}
         </p>
-        <Button
-          onClick={() => navigate('/rationalization/1')}
-          className="px-10 py-4 rounded-2xl text-md mb-10"
-        >
-          {t('home.hero.cta')}
-        </Button>
+        <div className="flex items-center gap-4 mb-10">
+          <Button
+            onClick={() => navigate('/rationalization/1')}
+            className="px-10 py-4 rounded-2xl text-md"
+          >
+            {t('home.hero.cta')}
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => fileInputRef.current?.click()}
+            className="px-10 py-4 rounded-2xl text-md border-navy-950 text-navy-950"
+          >
+            {t('home.hero.loadSession')}
+          </Button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".noema"
+            className="hidden"
+            onChange={handleFileChange}
+          />
+        </div>
         <HeroIllustration />
       </section>
 

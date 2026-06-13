@@ -9,6 +9,7 @@ const en = {
   'home.hero.title': 'Understand Your Thoughts\nwith Noema',
   'home.hero.body': 'Examine the thoughts that run through your mind, spot thinking patterns that may be making you feel worse, and practice more balanced ways of looking at situations.',
   'home.hero.cta': 'Start Session',
+  'home.hero.loadSession': 'Load saved session',
   'home.process.title': 'A three-step process for understanding and challenging unhelpful thoughts',
   'home.process.01.title': 'Notice',
   'home.process.01.desc': "Write down what's on your mind and how it makes you feel.",
@@ -118,6 +119,7 @@ const en = {
   'step7.table.emotion': 'Emotion',
   'step7.table.intensity': 'Intensity',
   'step7.export': 'Export to PDF',
+  'step7.exportNoema': 'Save as .noema',
   'step7.completeSession': 'Complete session',
   'step7.pdf.title': 'Rationalization with Noema',
 
@@ -354,6 +356,7 @@ const hr: Record<TranslationKey, string> = {
   'home.hero.title': 'Razumijte Svoje Misli\ns Noemom',
   'home.hero.body': 'Ispitajte misli koje vam prolaze kroz glavu, prepoznajte obrasce razmišljanja i vježbajte uravnoteženije poglede na situacije.',
   'home.hero.cta': 'Pokreni sesiju',
+  'home.hero.loadSession': 'Učitaj spremljenu sesiju',
   'home.process.title': 'Proces razumijevanja i propitivanja misli u tri koraka',
   'home.process.01.title': 'Primijeti',
   'home.process.01.desc': 'Zapišite što vam je na umu i kako se zbog toga osjećate.',
@@ -463,6 +466,7 @@ const hr: Record<TranslationKey, string> = {
   'step7.table.emotion': 'Emocija',
   'step7.table.intensity': 'Intenzitet',
   'step7.export': 'Izvezi kao PDF',
+  'step7.exportNoema': 'Spremi kao .noema',
   'step7.completeSession': 'Završi sesiju',
   'step7.pdf.title': 'Noema Racionalizacija',
 

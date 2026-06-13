@@ -104,6 +104,25 @@ export default function RationalizationStep7Page() {
     pdf.save('rationalization-summary.pdf')
   }
 
+  function exportToNoema() {
+    const state = useRationalizationStore.getState()
+    const snapshot = {
+      version: '1' as const,
+      when: state.when,
+      situation: state.situation,
+      initialEmotions: state.initialEmotions,
+      thoughts: state.thoughts,
+      finalEmotions: state.finalEmotions,
+    }
+    const blob = new Blob([JSON.stringify(snapshot, null, 2)], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'rationalization.noema'
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
   function completeSession() {
     reset()
     navigate('/')
@@ -162,6 +181,9 @@ export default function RationalizationStep7Page() {
           <div className="flex items-center justify-center gap-4 mb-10">
             <Button variant="primary" onClick={exportToPDF} className="px-8 py-3 rounded-2xl font-semibold">
               {t('step7.export')}
+            </Button>
+            <Button variant="primary" onClick={exportToNoema} className="px-8 py-3 rounded-2xl font-semibold">
+              {t('step7.exportNoema')}
             </Button>
             <Button
               variant="outline"

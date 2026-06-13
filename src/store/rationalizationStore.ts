@@ -1,6 +1,15 @@
 import { create } from 'zustand'
 import type { Emotion, SessionThought } from '../types/rationalization'
 
+export interface SessionSnapshot {
+  version: '1'
+  when: string
+  situation: string
+  initialEmotions: Emotion[]
+  thoughts: SessionThought[]
+  finalEmotions: Emotion[]
+}
+
 interface RationalizationStore {
   when: string
   situation: string
@@ -15,6 +24,7 @@ interface RationalizationStore {
   updateThought: (id: number, patch: Partial<Omit<SessionThought, 'id'>>) => void
   deleteThought: (id: number) => void
   setFinalEmotions: (emotions: Emotion[]) => void
+  loadSession: (snapshot: SessionSnapshot) => void
   reset: () => void
 }
 
@@ -50,6 +60,15 @@ export const useRationalizationStore = create<RationalizationStore>((set) => ({
     set((state) => ({ thoughts: state.thoughts.filter((t) => t.id !== id) })),
 
   setFinalEmotions: (emotions) => set({ finalEmotions: emotions }),
+
+  loadSession: (snapshot) =>
+    set({
+      when: snapshot.when,
+      situation: snapshot.situation,
+      initialEmotions: snapshot.initialEmotions,
+      thoughts: snapshot.thoughts,
+      finalEmotions: snapshot.finalEmotions,
+    }),
 
   reset: () => set(initialState),
 }))
