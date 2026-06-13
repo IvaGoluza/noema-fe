@@ -73,6 +73,13 @@ const en = {
   'step4.footer': 'AI suggestions may not always be accurate',
   'step4.automaticThought': 'Automatic Thought',
   'step4.healthyReframe': 'Healthy Reframe',
+  'step4.reframeWithEvidence': 'Reframe with evidence',
+  'step4.evidence.thought': 'Thought',
+  'step4.evidence.for': 'Evidence For',
+  'step4.evidence.against': 'Evidence Against',
+  'step4.evidence.reframe': 'Reframe',
+  'step4.evidence.cancel': 'Cancel',
+  'step4.evidence.save': 'Save Reframe',
 
   // Step 5
   'step5.title': 'Integration & Belief',
@@ -409,6 +416,13 @@ const hr: Record<TranslationKey, string> = {
   'step4.footer': 'AI prijedlozi možda nisu uvijek točni',
   'step4.automaticThought': 'Automatska misao',
   'step4.healthyReframe': 'Zdravo preoblikovanje',
+  'step4.reframeWithEvidence': 'Preoblikuj s dokazima',
+  'step4.evidence.thought': 'Misao',
+  'step4.evidence.for': 'Dokazi za',
+  'step4.evidence.against': 'Dokazi protiv',
+  'step4.evidence.reframe': 'Preoblikovana misao',
+  'step4.evidence.cancel': 'Odustani',
+  'step4.evidence.save': 'Spremi preoblikovanje',
 
   // Step 5
   'step5.title': 'Integracija i uvjerenje',
