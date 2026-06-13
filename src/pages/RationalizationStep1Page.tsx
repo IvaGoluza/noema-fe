@@ -4,9 +4,11 @@ import SectionBlock from '../components/SectionBlock'
 import DateTimePicker from '../components/ui/DateTimePicker'
 import TextArea from '../components/ui/TextArea'
 import { useRationalizationStore } from '../store/rationalizationStore'
+import { useT } from '../i18n/useLanguage'
 
 export default function RationalizationStep1Page() {
   const navigate = useNavigate()
+  const t = useT()
   const when = useRationalizationStore((s) => s.when)
   const situation = useRationalizationStore((s) => s.situation)
   const setWhen = useRationalizationStore((s) => s.setWhen)
@@ -14,21 +16,21 @@ export default function RationalizationStep1Page() {
 
   return (
     <RationalizationLayout
-      title="Establishing Context"
+      title={t('step1.title')}
       stepNumber={1}
       rightPanel={null}
       onNext={() => navigate('/rationalization/2')}
     >
-      <SectionBlock label="When" title="When did this happen?">
+      <SectionBlock label={t('step1.when.label')} title={t('step1.when.title')}>
         <DateTimePicker value={when} onChange={setWhen} />
       </SectionBlock>
 
       <SectionBlock
-        label="What, Where and Who"
-        title="Describe the situation."
-        description="Try to be objective. Identify the primary actors, environment, and the specific event that triggered this thought."
+        label={t('step1.situation.label')}
+        title={t('step1.situation.title')}
+        description={t('step1.situation.desc')}
       >
-        <TextArea value={situation} onChange={setSituation} placeholder='What happened? Who was involved?'/>
+        <TextArea value={situation} onChange={setSituation} placeholder={t('step1.situation.placeholder')} />
       </SectionBlock>
     </RationalizationLayout>
   )

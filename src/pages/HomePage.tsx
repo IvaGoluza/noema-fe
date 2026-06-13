@@ -5,28 +5,32 @@ import homepageIllustration from '../assets/homepage_illustration.png'
 import NoemaLogo from '../components/NoemaLogo'
 import FerBadge from '../components/FerBadge'
 import Button from '../components/ui/Button'
+import { useT } from '../i18n/useLanguage'
 
 export default function HomePage() {
   const navigate = useNavigate()
+  const t = useT()
+
   return (
     <div className="min-h-screen w-screen bg-white flex flex-col items-center">
       {/* Hero */}
       <section className="w-full flex flex-col items-center text-center px-6 pt-12 pb-0">
         <p className="text-xs tracking-[0.18em] uppercase font-medium mb-6 text-gray-400">
-          
-          Intended for support and guidance, not a substitute for professional mental health care.
+          {t('home.disclaimer')}
         </p>
         <h1 className="text-5xl font-semibold leading-tight mb-6 max-w-2/3 font-serif text-navy-950">
-         Understand Your Thoughts <br/> with Noema
+          {t('home.hero.title').split('\n').map((line, i) => (
+            <span key={i}>{line}{i === 0 && <br />}</span>
+          ))}
         </h1>
         <p className="max-w-3xl leading-relaxed mb-4 text-gray-600">
-          Examine the thoughts that run through your mind, spot thinking patterns that may be making you feel worse, and practice more balanced ways of looking at situations.
+          {t('home.hero.body')}
         </p>
         <Button
           onClick={() => navigate('/rationalization/1')}
           className="px-10 py-4 rounded-2xl text-md mb-10"
         >
-          Start Session
+          {t('home.hero.cta')}
         </Button>
         <HeroIllustration />
       </section>
@@ -35,26 +39,26 @@ export default function HomePage() {
       <section className="w-full px-8 py-24 bg-gray-50">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-xl font-semibold mb-10 font-serif text-navy-950">
-            A three-step process for understanding and challenging unhelpful thoughts
+            {t('home.process.title')}
           </h2>
           <div className="grid grid-cols-3 gap-4">
             <FeatureCard
               number="01"
               icon={<Eye size={22} />}
-              title="Notice"
-              description="Write down what's on your mind and how it makes you feel."
+              title={t('home.process.01.title')}
+              description={t('home.process.01.desc')}
             />
             <FeatureCard
               number="02"
               icon={<Crosshair size={22} />}
-              title="Understand"
-              description="Learn which thinking patterns may be influencing your reaction."
+              title={t('home.process.02.title')}
+              description={t('home.process.02.desc')}
             />
             <FeatureCard
               number="03"
               icon={<RefreshCw size={22} />}
-              title="Reconsider"
-              description="Practice creating a more balanced and realistic perspective."
+              title={t('home.process.03.title')}
+              description={t('home.process.03.desc')}
             />
           </div>
         </div>
@@ -63,15 +67,15 @@ export default function HomePage() {
       <div className="flex flex-col w-full py-10 bg-gray-100">
         <InfoSection
           icon={<Send size={32} strokeWidth={2} />}
-          title="Intelligent Support"
-          body="Noema uses AI models specifically trained to identify unhelpful thinking patterns and suggest more balanced perspectives."
-          note={<>Every AI-generated suggestion is fully editable, and<br />you can override or insert your own insights at any stage of the process.</>}
+          title={t('home.ai.title')}
+          body={t('home.ai.body')}
+          note={t('home.ai.note')}
         />
         <InfoSection
           icon={<Lock size={32} strokeWidth={2} />}
-          title="Privacy"
-          body="Your thoughts stay private. Noema does not store your entries after your session ends."
-          note="If you'd like to keep them, you can export your session as a PDF."
+          title={t('home.privacy.title')}
+          body={t('home.privacy.body')}
+          note={t('home.privacy.note')}
         />
       </div>
 
@@ -79,13 +83,13 @@ export default function HomePage() {
       <footer className="w-full px-24 pt-40 pb-16 bg-gray-50">
         <div className="mb-12">
           <NoemaLogo />
-          <p className="text-xs mt-2 text-gray-500">A cognitive rationalization platform.</p>
+          <p className="text-xs mt-2 text-gray-500">{t('home.footer.tagline')}</p>
         </div>
         <div className="mb-12">
           <FerBadge />
         </div>
         <hr className="border-gray-200" />
-        <p className="text-xs text-center mt-6 text-gray-500">© 2026 Noema. All rights reserved.</p>
+        <p className="text-xs text-center mt-6 text-gray-500">{t('home.footer.copyright')}</p>
       </footer>
     </div>
   )
@@ -110,7 +114,7 @@ function FeatureCard({ number, icon, title, description }: { number: string; ico
   )
 }
 
-function InfoSection({ icon, title, body, note }: { icon: ReactNode; title: string; body: string; note: ReactNode }) {
+function InfoSection({ icon, title, body, note }: { icon: ReactNode; title: string; body: string; note: string }) {
   return (
     <section className="flex flex-col items-center text-center px-6 py-10">
       <div className="mb-5 text-gray-300">{icon}</div>

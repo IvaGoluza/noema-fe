@@ -9,6 +9,8 @@ import {
 } from '../components/ui/chart'
 import Button from '../components/ui/Button'
 import { useRationalizationStore } from '../store/rationalizationStore'
+import { useT, useLanguage } from '../i18n/useLanguage'
+import { distortions } from '../data/distortions'
 import type { Emotion, SessionThought } from '../types/rationalization'
 
 interface EmotionGroup {
@@ -53,8 +55,13 @@ function loadImage(dataUrl: string): Promise<HTMLImageElement> {
   })
 }
 
+function getDistortionKey(name: string): string {
+  return distortions.find((d) => d.name === name)?.key ?? ''
+}
+
 export default function RationalizationStep7Page() {
   const navigate = useNavigate()
+  const t = useT()
   const chartsRef = useRef<HTMLDivElement>(null)
   const summaryRef = useRef<HTMLDivElement>(null)
   const initialEmotions = useRationalizationStore((s) => s.initialEmotions)
@@ -85,7 +92,7 @@ export default function RationalizationStep7Page() {
     // Page 1: header + charts
     pdf.setFont('helvetica', 'bold')
     pdf.setFontSize(16)
-    pdf.text('Rationalization with Noema', margin, margin + 14)
+    pdf.text(t('step7.pdf.title'), margin, margin + 14)
     const chartsH = (chartsImg.height * usableWidth) / chartsImg.width
     pdf.addImage(chartsUrl, 'PNG', margin, margin + headerHeight, usableWidth, chartsH)
 
@@ -109,13 +116,13 @@ export default function RationalizationStep7Page() {
           <div className="flex items-start justify-between mb-2">
             <div>
               <p className="text-xs text-gray-500 tracking-widest uppercase font-medium mb-1">
-                Rationalization Journey
+                {t('step7.journey')}
               </p>
               <h1 className="text-3xl font-semibold" style={{ fontFamily: 'Noto Serif, serif' }}>
-                Rationalization Complete
+                {t('step7.complete')}
               </h1>
             </div>
-            <span className="text-sm text-purple-500 mt-4 shrink-0 ml-6">Step 7 of 7</span>
+            <span className="text-sm text-purple-500 mt-4 shrink-0 ml-6">{t('step7.stepLabel')}</span>
           </div>
 
           <div className="w-full h-1 mb-8 bg-purple-100">
@@ -125,43 +132,43 @@ export default function RationalizationStep7Page() {
           <div ref={chartsRef} className="rounded-2xl p-6 mb-4 flex items-start gap-6 bg-gray-50">
             {initial.data.length > 0 ? (
               <EmotionChart
-                title="Initial Emotions"
-                subtitle="Emotions before rationalization process"
+                title={t('step7.initial.title')}
+                subtitle={t('step7.initial.subtitle')}
                 config={initial.config}
                 data={initial.data}
                 groups={initial.groups}
               />
             ) : (
-              <EmptyChart title="Initial Emotions" subtitle="Emotions before rationalization process" />
+              <EmptyChart title={t('step7.initial.title')} subtitle={t('step7.initial.subtitle')} />
             )}
             <div className="w-px self-stretch shrink-0" style={{ backgroundColor: '#E0E0E8' }} />
             {current.data.length > 0 ? (
               <EmotionChart
-                title="Current Emotions"
-                subtitle="Emotions after rationalization process"
+                title={t('step7.current.title')}
+                subtitle={t('step7.current.subtitle')}
                 config={current.config}
                 data={current.data}
                 groups={current.groups}
               />
             ) : (
-              <EmptyChart title="Current Emotions" subtitle="Emotions after rationalization process" />
+              <EmptyChart title={t('step7.current.title')} subtitle={t('step7.current.subtitle')} />
             )}
           </div>
 
           <div ref={summaryRef}>
-            <Summary when={when} situation={situation} thoughts={thoughts} />
+            <Summary when={when} situation={situation} thoughts={thoughts} getDistortionKey={getDistortionKey} />
           </div>
 
           <div className="flex items-center justify-center gap-4 mb-10">
             <Button variant="primary" onClick={exportToPDF} className="px-8 py-3 rounded-2xl font-semibold">
-              Export to PDF
+              {t('step7.export')}
             </Button>
             <Button
               variant="outline"
               onClick={completeSession}
               className="px-8 py-3 rounded-2xl border-navy-950 text-navy-950 font-medium"
             >
-              Complete session
+              {t('step7.completeSession')}
             </Button>
           </div>
         </div>
@@ -183,6 +190,7 @@ function EmotionChart({
   data: { name: string; value: number; fill: string }[]
   groups: EmotionGroup[]
 }) {
+  const t = useT()
   return (
     <div className="flex-1 flex flex-col items-center text-center py-4">
       <h2 className="font-semibold text-lg mb-1" style={{ fontFamily: 'Noto Serif, serif' }}>
@@ -198,25 +206,29 @@ function EmotionChart({
         {data.map((entry) => (
           <div key={entry.name} className="flex items-center gap-1.5">
             <div className="h-2 w-2 shrink-0 rounded-xs" style={{ backgroundColor: entry.fill }} />
-            <span className="text-sm text-muted-foreground">{config[entry.name]?.label}</span>
+            <span className="text-sm text-muted-foreground">
+              {t(`emotions.${config[entry.name]?.label}`)}
+            </span>
           </div>
         ))}
       </div>
       <div className="w-[60%] text-left space-y-3 mt-4">
         <div className="flex items-center justify-between mb-1 border-b border-gray-200 pb-1">
-          <span className="text-sm font-semibold text-gray-400 uppercase tracking-wide">Emotion</span>
-          <span className="text-sm font-semibold text-gray-400 uppercase tracking-wide">Intensity</span>
+          <span className="text-sm font-semibold text-gray-400 uppercase tracking-wide">{t('step7.table.emotion')}</span>
+          <span className="text-sm font-semibold text-gray-400 uppercase tracking-wide">{t('step7.table.intensity')}</span>
         </div>
         {groups.map((group) => (
           <div key={group.coreName}>
             <div className="flex items-center gap-1.5 mb-1">
               <div className="h-2 w-2 shrink-0 rounded-xs" style={{ backgroundColor: group.coreColor }} />
-              <span className="text-sm font-semibold text-gray-700">{group.coreName}</span>
+              <span className="text-sm font-semibold text-gray-700">{t(`emotions.${group.coreName}`)}</span>
             </div>
             <div className="pl-3.5 space-y-0.5">
               {group.emotions.map((e) => (
                 <div key={`${e.secondaryName}-${e.tertiaryName}`} className="flex items-center justify-between">
-                  <span className="text-sm text-gray-500">{e.tertiaryName || e.secondaryName}</span>
+                  <span className="text-sm text-gray-500">
+                    {t(`emotions.${e.tertiaryName || e.secondaryName}`)}
+                  </span>
                   <span className="text-sm text-gray-500">{e.intensity}%</span>
                 </div>
               ))}
@@ -229,21 +241,22 @@ function EmotionChart({
 }
 
 function EmptyChart({ title, subtitle }: { title: string; subtitle: string }) {
+  const t = useT()
   return (
     <div className="flex-1 flex flex-col items-center justify-center text-center py-8">
       <h2 className="font-semibold text-lg mb-1" style={{ fontFamily: 'Noto Serif, serif' }}>
         {title}
       </h2>
       <p className="text-sm text-gray-500 mb-4">{subtitle}</p>
-      <p className="text-sm text-gray-400 italic">No emotions selected</p>
+      <p className="text-sm text-gray-400 italic">{t('step7.noEmotions')}</p>
     </div>
   )
 }
 
-function formatWhen(value: string): string {
+function formatWhen(value: string, locale: string): string {
   const date = new Date(value)
   if (isNaN(date.getTime())) return value
-  return date.toLocaleString('en-GB', {
+  return date.toLocaleString(locale, {
     day: 'numeric',
     month: 'long',
     year: 'numeric',
@@ -252,43 +265,74 @@ function formatWhen(value: string): string {
   })
 }
 
-function Summary({ when, situation, thoughts }: { when: string; situation: string; thoughts: SessionThought[] }) {
+function Summary({
+  when,
+  situation,
+  thoughts,
+  getDistortionKey,
+}: {
+  when: string
+  situation: string
+  thoughts: SessionThought[]
+  getDistortionKey: (name: string) => string
+}) {
+  const t = useT()
+  const { lang } = useLanguage()
+  const locale = lang === 'hr' ? 'hr-HR' : 'en-GB'
   const isEmpty = !when && !situation && thoughts.length === 0
   return (
     <div className="rounded-2xl p-10 mb-10 space-y-8 bg-gray-50">
       <div className="flex justify-between align-bottom">
         <h2 className="font-semibold text-xl" style={{ fontFamily: 'Noto Serif, serif' }}>
-          Summary
+          {t('step7.summary.title')}
         </h2>
-        {when && <span className="text-sm text-gray-500">{formatWhen(when)}</span>}
+        {when && <span className="text-sm text-gray-500">{formatWhen(when, locale)}</span>}
       </div>
       {situation && (
         <div className="text-navy-950">
-          <h3 className="font-semibold text-lg" style={{ fontFamily: 'Noto Serif, serif' }}>Situation</h3>
+          <h3 className="font-semibold text-lg" style={{ fontFamily: 'Noto Serif, serif' }}>
+            {t('step7.summary.situation')}
+          </h3>
           <p className="pt-2">{situation}</p>
         </div>
       )}
       {thoughts.length > 0 && (
         <div>
-          <p className="text-navy-950 font-semibold text-lg" style={{ fontFamily: 'Noto Serif, serif' }}>Thoughts</p>
-          {thoughts.map((t) => <ThoughtCard key={t.id} thought={t} />)}
+          <p className="text-navy-950 font-semibold text-lg" style={{ fontFamily: 'Noto Serif, serif' }}>
+            {t('step7.summary.thoughts')}
+          </p>
+          {thoughts.map((thought) => (
+            <ThoughtCard key={thought.id} thought={thought} getDistortionKey={getDistortionKey} />
+          ))}
         </div>
       )}
-      {isEmpty && <p className="text-sm text-gray-400 italic">No data recorded.</p>}
+      {isEmpty && <p className="text-sm text-gray-400 italic">{t('step7.summary.empty')}</p>}
     </div>
   )
 }
 
-function ThoughtCard({ thought }: { thought: SessionThought }) {
+function ThoughtCard({
+  thought,
+  getDistortionKey,
+}: {
+  thought: SessionThought
+  getDistortionKey: (name: string) => string
+}) {
+  const t = useT()
   return (
     <div className="flex flex-col gap-2 text-normal py-4 border-b border-b-purple-100">
-      <SummaryField label="Thought" value={thought.content} />
-      <SummaryField label="Belief" value={`${thought.beliefBefore}%`} />
-      {thought.distortion && <SummaryField label="Cognitive distortion" value={thought.distortion} />}
+      <SummaryField label={t('step7.thought.thought')} value={thought.content} />
+      <SummaryField label={t('step7.thought.belief')} value={`${thought.beliefBefore}%`} />
+      {thought.distortion && (
+        <SummaryField
+          label={t('step7.thought.distortion')}
+          value={t(`distortions.${getDistortionKey(thought.distortion)}.name`)}
+        />
+      )}
       {thought.reframe && (
         <>
-          <SummaryField label="Reframe" value={thought.reframe} />
-          <SummaryField label="Reframe belief" value={`${thought.beliefAfter}%`} />
+          <SummaryField label={t('step7.thought.reframe')} value={thought.reframe} />
+          <SummaryField label={t('step7.thought.reframeBelief')} value={`${thought.beliefAfter}%`} />
         </>
       )}
     </div>

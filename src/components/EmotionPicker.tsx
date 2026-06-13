@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { EMOTIONS, lighten } from '../data/emotions'
 import type { Emotion } from '../types/rationalization'
 import { emotionKey } from '../types/rationalization'
+import { useT } from '../i18n/useLanguage'
 
 interface Props {
   selectedLeaves: Emotion[]
@@ -9,6 +10,7 @@ interface Props {
 }
 
 export default function EmotionPicker({ selectedLeaves, onToggleLeaf }: Props) {
+  const t = useT()
   const [activeCore, setActiveCore] = useState(EMOTIONS[0].name)
   const [lastPath, setLastPath] = useState<string | null>(null)
 
@@ -21,18 +23,18 @@ export default function EmotionPicker({ selectedLeaves, onToggleLeaf }: Props) {
 
   function handleSecondaryClick(secondaryName: string) {
     onToggleLeaf({ coreName: core.name, coreColor: core.color, secondaryName, tertiaryName: '' })
-    setLastPath(`${core.name} > ${secondaryName}`)
+    setLastPath(`${t(`emotions.${core.name}`)} > ${t(`emotions.${secondaryName}`)}`)
   }
 
   function handleTertiaryClick(secondaryName: string, tertiaryName: string) {
     onToggleLeaf({ coreName: core.name, coreColor: core.color, secondaryName, tertiaryName })
-    setLastPath(`${core.name} > ${secondaryName} > ${tertiaryName}`)
+    setLastPath(`${t(`emotions.${core.name}`)} > ${t(`emotions.${secondaryName}`)} > ${t(`emotions.${tertiaryName}`)}`)
   }
 
   return (
     <div>
       <p className="text-xs text-gray-500 mb-2">
-        Select a main emotion to see its sub-emotions and detailed emotions
+        {t('emotionPicker.hint')}
       </p>
 
       {/* Tabs */}
@@ -56,7 +58,7 @@ export default function EmotionPicker({ selectedLeaves, onToggleLeaf }: Props) {
                   style={{ backgroundColor: emotion.color }}
                 />
               )}
-              {emotion.name}
+              {t(`emotions.${emotion.name}`)}
             </button>
           )
         })}
@@ -81,7 +83,7 @@ export default function EmotionPicker({ selectedLeaves, onToggleLeaf }: Props) {
                   color: '#1f2937',
                 }}
               >
-                {secondary.name}
+                {t(`emotions.${secondary.name}`)}
               </button>
 
               {/* Cols 2–3: tertiary (leaf) */}
@@ -102,7 +104,7 @@ export default function EmotionPicker({ selectedLeaves, onToggleLeaf }: Props) {
                       color: '#1f2937',
                     }}
                   >
-                    {tertiary.name}
+                    {t(`emotions.${tertiary.name}`)}
                   </button>
                 )
               })}
@@ -114,7 +116,7 @@ export default function EmotionPicker({ selectedLeaves, onToggleLeaf }: Props) {
       {/* Selected path */}
       {lastPath && (
         <p className="text-xs mt-3 text-gray-500">
-          Selected path:{' '}
+          {t('emotionPicker.selectedPath')}{' '}
           <span className="text-navy-950">{lastPath}</span>
         </p>
       )}

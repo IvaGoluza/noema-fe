@@ -7,6 +7,7 @@ import {
 } from '@/components/ui/chart'
 import type { Emotion } from '../types/rationalization'
 import { emotionKey } from '../types/rationalization'
+import { useT } from '../i18n/useLanguage'
 
 interface Props {
   selectedLeaves: Emotion[]
@@ -14,14 +15,14 @@ interface Props {
 }
 
 export default function EmotionIntensityPanel({ selectedLeaves, onIntensityChange }: Props) {
-  // Group by core emotion
+  const t = useT()
+
   const groups = selectedLeaves.reduce<Record<string, Emotion[]>>((acc, leaf) => {
     if (!acc[leaf.coreName]) acc[leaf.coreName] = []
     acc[leaf.coreName].push(leaf)
     return acc
   }, {})
 
-  // Pie chart data: sum intensity per core
   const pieData = Object.entries(groups).map(([coreName, leaves]) => ({
     name: coreName,
     value: leaves.reduce((sum, l) => sum + l.intensity, 0),
@@ -29,7 +30,7 @@ export default function EmotionIntensityPanel({ selectedLeaves, onIntensityChang
   }))
 
   const chartConfig = pieData.reduce<ChartConfig>((acc, item) => {
-    acc[item.name] = { label: item.name, color: item.fill }
+    acc[item.name] = { label: t(`emotions.${item.name}`), color: item.fill }
     return acc
   }, {})
 
@@ -38,26 +39,27 @@ export default function EmotionIntensityPanel({ selectedLeaves, onIntensityChang
       {/* Left: Selected emotions + sliders */}
       <div className="flex-1 px-5 py-8 overflow-y-auto">
         <p className="text-sm font-semibold mb-0.5 text-navy-950">
-          Selected emotions
+          {t('emotionPanel.selected')}
         </p>
         <p className="text-xs mb-4 text-gray-500">
-          Choose the intensity for emotions you selected
+          {t('emotionPanel.intensity')}
         </p>
 
         {selectedLeaves.length === 0 && (
-          <p className="text-xs text-gray-400">No emotions selected yet.</p>
+          <p className="text-xs text-gray-400">{t('emotionPanel.none')}</p>
         )}
 
         {Object.entries(groups).map(([coreName, leaves]) => (
           <div key={coreName} className="mb-4">
-            <p className="text-xs font-semibold mb-2" style={{ color: '#041627' }}>{coreName}</p>
+            <p className="text-xs font-semibold mb-2" style={{ color: '#041627' }}>
+              {t(`emotions.${coreName}`)}
+            </p>
             {leaves.map(leaf => (
               <div key={emotionKey(leaf)} className="mb-3">
                 <div className="flex justify-between items-center text-xs text-gray-600 mb-1">
-                  <span>{leaf.tertiaryName || leaf.secondaryName}</span>
+                  <span>{t(`emotions.${leaf.tertiaryName || leaf.secondaryName}`)}</span>
                   <span className="font-medium">{leaf.intensity}%</span>
                 </div>
-                {/* Custom visual slider */}
                 <div className="relative h-4">
                   <div className="absolute top-1/2 -translate-y-1/2 w-full h-1.5 rounded-full bg-gray-200" />
                   <div
@@ -89,10 +91,10 @@ export default function EmotionIntensityPanel({ selectedLeaves, onIntensityChang
       {/* Right: Main emotions pie chart */}
       <div className="w-56 shrink-0 px-5 py-8">
         <p className="text-sm text-navy-950 font-semibold mb-0.5">
-          Main emotions
+          {t('emotionPanel.main')}
         </p>
         <p className="text-xs text-gray-500 mb-4">
-          See which emotions prevail
+          {t('emotionPanel.prevail')}
         </p>
 
         {pieData.length > 0 ? (
@@ -107,7 +109,7 @@ export default function EmotionIntensityPanel({ selectedLeaves, onIntensityChang
             </PieChart>
           </ChartContainer>
         ) : (
-          <p className="text-xs text-gray-400">Select emotions to see the chart.</p>
+          <p className="text-xs text-gray-400">{t('emotionPanel.chart')}</p>
         )}
       </div>
     </div>

@@ -2,16 +2,18 @@ import { useNavigate } from 'react-router-dom'
 import RationalizationLayout from '../components/RationalizationLayout'
 import Slider from '../components/ui/Slider'
 import { useRationalizationStore } from '../store/rationalizationStore'
+import { useT } from '../i18n/useLanguage'
 
 export default function RationalizationStep5Page() {
   const navigate = useNavigate()
+  const t = useT()
   const thoughts = useRationalizationStore((s) => s.thoughts)
   const updateThought = useRationalizationStore((s) => s.updateThought)
 
   return (
     <RationalizationLayout
-      title="Integration & Belief"
-      subtitle="Think about how much you believe in your reframed thoughts."
+      title={t('step5.title')}
+      subtitle={t('step5.subtitle')}
       stepNumber={5}
       rightPanel={null}
       onPrevious={() => navigate('/rationalization/4')}
@@ -22,7 +24,7 @@ export default function RationalizationStep5Page() {
           className="grid grid-cols-[1fr_1.6fr_1.2fr] gap-0 border border-gray-200 rounded-t-xl overflow-hidden"
           style={{ backgroundColor: '#F4F4F6' }}
         >
-          {(['Original Thought', 'Reframed Perspective', 'Belief Strength'] as const).map((col) => (
+          {([t('step5.col.original'), t('step5.col.reframed'), t('step5.col.belief')] as const).map((col) => (
             <div key={col} className="px-5 py-3 border-r border-gray-200 last:border-r-0">
               <p className="text-xs font-semibold text-gray-600">{col}</p>
             </div>
@@ -32,23 +34,23 @@ export default function RationalizationStep5Page() {
         <div className="border-l border-r border-b border-gray-200 rounded-b-xl overflow-hidden divide-y divide-gray-200">
           {thoughts.length === 0 && (
             <p className="text-sm text-gray-400 px-5 py-4">
-              No thoughts to review yet. Go back to step 3 to add your automatic thoughts.
+              {t('step5.empty')}
             </p>
           )}
-          {thoughts.map((t) => (
-            <div key={t.id} className="grid grid-cols-[1fr_1.6fr_1.2fr]">
+          {thoughts.map((thought) => (
+            <div key={thought.id} className="grid grid-cols-[1fr_1.6fr_1.2fr]">
               <div className="px-5 py-4 border-r border-gray-200">
-                <p className="text-sm text-navy-950 leading-relaxed">{t.content}</p>
+                <p className="text-sm text-navy-950 leading-relaxed">{thought.content}</p>
               </div>
               <div className="px-5 py-4 border-r border-gray-200">
                 <p className="text-sm text-navy-950 leading-relaxed">
-                  {t.reframe || <span className="text-gray-400 italic">No reframe yet</span>}
+                  {thought.reframe || <span className="text-gray-400 italic">{t('step5.noReframe')}</span>}
                 </p>
               </div>
               <div className="px-5 py-4">
                 <BeliefSlider
-                  value={t.beliefAfter}
-                  onChange={(v) => updateThought(t.id, { beliefAfter: v })}
+                  value={thought.beliefAfter}
+                  onChange={(v) => updateThought(thought.id, { beliefAfter: v })}
                 />
               </div>
             </div>
@@ -60,9 +62,10 @@ export default function RationalizationStep5Page() {
 }
 
 function BeliefSlider({ value, onChange }: { value: number; onChange: (v: number) => void }) {
+  const t = useT()
   return (
     <div>
-      <p className="text-xs text-gray-500 mb-2">How much do you believe this version?</p>
+      <p className="text-xs text-gray-500 mb-2">{t('step5.beliefQuestion')}</p>
       <Slider
         value={value}
         onChange={onChange}

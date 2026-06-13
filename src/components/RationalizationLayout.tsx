@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { useT } from '../i18n/useLanguage'
 
 const TOTAL_STEPS = 7
 
@@ -25,6 +26,7 @@ export default function RationalizationLayout({
   footerNote,
   children,
 }: Props) {
+  const t = useT()
   const hasRightPanel = rightPanel !== undefined
 
   return (
@@ -39,7 +41,7 @@ export default function RationalizationLayout({
               {title}
             </h1>
             <span className="text-sm mt-4 shrink-0 ml-6 text-purple-500">
-              Step {stepNumber} of {TOTAL_STEPS}
+              {t('layout.step', { step: stepNumber, total: TOTAL_STEPS })}
             </span>
           </div>
 
@@ -66,7 +68,7 @@ export default function RationalizationLayout({
                   onClick={onPrevious}
                   className="flex items-center gap-2 px-5 py-3 rounded-2xl border text-sm font-medium text-navy-950 border-navy-950"
                 >
-                  <ChevronLeft size={16} /> Previous
+                  <ChevronLeft size={16} /> {t('layout.previous')}
                 </button>
               )}
             </div>
@@ -79,7 +81,7 @@ export default function RationalizationLayout({
               onClick={onNext}
               className="flex items-center gap-2 px-6 py-3 rounded-2xl border text-sm font-medium text-navy-950 border-navy-950"
             >
-              Next <ChevronRight size={16} />
+              {t('layout.next')} <ChevronRight size={16} />
             </button>
           </div>
         </div>
