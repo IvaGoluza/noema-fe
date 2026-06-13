@@ -15,6 +15,8 @@ export interface SessionThought {
   content: string
   beliefBefore: number
   distortion: string
+  evidenceFor: string
+  evidenceAgainst: string
   reframe: string
   beliefAfter: number
 }

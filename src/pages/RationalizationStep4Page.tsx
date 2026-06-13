@@ -1,5 +1,6 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { BookOpen } from 'lucide-react'
+import { BookOpen, X } from 'lucide-react'
 import RationalizationLayout from '../components/RationalizationLayout'
 import Accordion from '../components/ui/Accordion'
 import Select from '../components/ui/Select'
@@ -8,12 +9,31 @@ import { distortions, type Distortion } from '../data/distortions'
 import Button from '../components/ui/Button'
 import { useRationalizationStore } from '../store/rationalizationStore'
 import { useT } from '../i18n/useLanguage'
+import type { SessionThought } from '../types/rationalization'
+
+interface ProsConsState {
+  thought: SessionThought
+  pros: string
+  cons: string
+  reframe: string
+}
 
 export default function RationalizationStep4Page() {
   const navigate = useNavigate()
   const t = useT()
   const thoughts = useRationalizationStore((s) => s.thoughts)
   const updateThought = useRationalizationStore((s) => s.updateThought)
+  const [modal, setModal] = useState<ProsConsState | null>(null)
+
+  function openModal(thought: SessionThought) {
+    setModal({ thought, pros: thought.evidenceFor, cons: thought.evidenceAgainst, reframe: thought.reframe })
+  }
+
+  function saveModal() {
+    if (!modal) return
+    updateThought(modal.thought.id, { evidenceFor: modal.pros, evidenceAgainst: modal.cons, reframe: modal.reframe })
+    setModal(null)
+  }
 
   const distortionOptions = distortions.map((d) => ({
     value: d.name,
@@ -33,71 +53,151 @@ export default function RationalizationStep4Page() {
   }
 
   return (
-    <RationalizationLayout
-      title={t('step4.title')}
-      subtitle={t('step4.subtitle')}
-      stepNumber={4}
-      rightPanel={<GlossaryPanel />}
-      onPrevious={() => navigate('/rationalization/3')}
-      onNext={() => navigate('/rationalization/5')}
-      footerNote={t('step4.footer')}
-    >
-      <div>
-        <div className="flex justify-between align-bottom items-end mb-4">
-          <span className="text-xs h-fit tracking-widest uppercase font-medium text-gray-500">
-            {t('step4.thoughts.label')}
-          </span>
-          <Button onClick={generateSuggestions} className="flex items-center gap-2 px-4">
-            {t('step4.generate')}
-          </Button>
-        </div>
+    <>
+      <RationalizationLayout
+        title={t('step4.title')}
+        subtitle={t('step4.subtitle')}
+        stepNumber={4}
+        rightPanel={<GlossaryPanel />}
+        onPrevious={() => navigate('/rationalization/3')}
+        onNext={() => navigate('/rationalization/5')}
+        footerNote={t('step4.footer')}
+      >
+        <div>
+          <div className="flex justify-between align-bottom items-end mb-4">
+            <span className="text-xs h-fit tracking-widest uppercase font-medium text-gray-500">
+              {t('step4.thoughts.label')}
+            </span>
+            <Button onClick={generateSuggestions} className="flex items-center gap-2 px-4">
+              {t('step4.generate')}
+            </Button>
+          </div>
 
-        {thoughts.length === 0 && (
-          <p className="text-sm text-gray-400 py-4">
-            {t('step4.thoughts.empty')}
-          </p>
-        )}
+          {thoughts.length === 0 && (
+            <p className="text-sm text-gray-400 py-4">
+              {t('step4.thoughts.empty')}
+            </p>
+          )}
 
-        <div className="border-t border-t-gray-200">
-          {thoughts.map((thought, i) => (
-            <Accordion
-              key={thought.id}
-              defaultOpen={i === 0}
-              className="border border-gray-200 border-t-0 overflow-hidden"
-              triggerClassName="px-4 py-3 bg-white hover:bg-gray-50"
-              bodyClassName="px-4 pb-4 bg-white border-t border-gray-100"
-              trigger={
-                <span className="text-sm text-navy-950 pr-3">
-                  {thought.content}
-                </span>
-              }
-            >
-              <div className="pt-4 flex flex-col gap-4">
-                <Select
-                  label={t('step4.distortion.label')}
-                  value={thought.distortion}
-                  onChange={(v) => updateThought(thought.id, { distortion: v })}
-                  options={distortionOptions}
-                  placeholder={t('step4.distortion.placeholder')}
-                  className="max-w-sm"
-                />
-                <div>
-                  <p className="text-xs text-gray-500 tracking-widest uppercase font-medium mb-1.5">
-                    {t('step4.reframe.label')}
-                  </p>
-                  <TextArea
-                    value={thought.reframe}
-                    onChange={(v) => updateThought(thought.id, { reframe: v })}
-                    placeholder={t('step4.reframe.placeholder')}
-                    rows={4}
-                  />
+          <div className="border-t border-t-gray-200">
+            {thoughts.map((thought, i) => (
+              <Accordion
+                key={thought.id}
+                defaultOpen={i === 0}
+                className="border border-gray-200 border-t-0 overflow-hidden"
+                triggerClassName="px-4 py-3 bg-white hover:bg-gray-50"
+                bodyClassName="px-4 pb-4 bg-white border-t border-gray-100"
+                trigger={
+                  <span className="text-sm text-navy-950 pr-3">
+                    {thought.content}
+                  </span>
+                }
+              >
+                <div className="pt-4 flex flex-col gap-4">
+                  <div className="flex items-end justify-between gap-4">
+                    <Select
+                      label={t('step4.distortion.label')}
+                      value={thought.distortion}
+                      onChange={(v) => updateThought(thought.id, { distortion: v })}
+                      options={distortionOptions}
+                      placeholder={t('step4.distortion.placeholder')}
+                      className="w-1/2"
+                    />
+                    <Button
+                      variant="outline"
+                      className="text-xs px-3 py-2 shrink-0"
+                      onClick={() => openModal(thought)}
+                    >
+                      Reframe with evidence
+                    </Button>
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500 tracking-widest uppercase font-medium mb-1.5">
+                      {t('step4.reframe.label')}
+                    </p>
+                    <TextArea
+                      value={thought.reframe}
+                      onChange={(v) => updateThought(thought.id, { reframe: v })}
+                      placeholder={t('step4.reframe.placeholder')}
+                      rows={4}
+                    />
+                  </div>
                 </div>
-              </div>
-            </Accordion>
-          ))}
+              </Accordion>
+            ))}
+          </div>
         </div>
-      </div>
-    </RationalizationLayout>
+      </RationalizationLayout>
+
+      {modal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-4xl mx-4 flex flex-col h-[90vh]">
+            <div className="flex items-start justify-between px-6 pt-6 pb-4 border-b border-gray-100">
+              <div className="flex flex-col gap-1.5 pr-4">
+                <p className="text-xs tracking-widest uppercase font-medium text-gray-500">
+                  Thought
+                </p>
+                <p className="text-sm font-medium text-navy-950 leading-relaxed">
+                  {modal.thought.content}
+                </p>
+              </div>
+              <button
+                onClick={() => setModal(null)}
+                className="shrink-0 text-gray-400 hover:text-gray-600 mt-0.5"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <div className="flex gap-4 px-6 pt-5 pb-4 flex-1 overflow-auto">
+              <div className="flex-1 flex flex-col gap-1.5">
+                <p className="text-xs tracking-widest uppercase font-medium text-gray-500">
+                  Evidence For
+                </p>
+                <textarea
+                  value={modal.pros}
+                  onChange={(e) => setModal({ ...modal, pros: e.target.value })}
+                  rows={8}
+                  className="w-full flex-1 border border-gray-200 rounded bg-gray-50 px-4 py-3 text-sm resize-none focus:outline-none"
+                />
+              </div>
+              <div className="flex-1 flex flex-col gap-1.5">
+                <p className="text-xs tracking-widest uppercase font-medium text-gray-500">
+                  Evidence Against
+                </p>
+                <textarea
+                  value={modal.cons}
+                  onChange={(e) => setModal({ ...modal, cons: e.target.value })}
+                  rows={8}
+                  className="w-full flex-1 border border-gray-200 rounded bg-gray-50 px-4 py-3 text-sm resize-none focus:outline-none"
+                />
+              </div>
+            </div>
+
+            <div className="px-6 pb-4 flex flex-col gap-1.5">
+              <p className="text-xs tracking-widest uppercase font-medium text-gray-500">
+                Reframe
+              </p>
+              <textarea
+                value={modal.reframe}
+                onChange={(e) => setModal({ ...modal, reframe: e.target.value })}
+                rows={3}
+                className="w-full border border-gray-200 rounded bg-gray-50 px-4 py-3 text-sm resize-none focus:outline-none"
+              />
+            </div>
+
+            <div className="flex justify-end gap-3 px-6 pb-6">
+              <Button variant="outline" onClick={() => setModal(null)}>
+                Cancel
+              </Button>
+              <Button onClick={saveModal}>
+                Save Reframe
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   )
 }
 

@@ -37,7 +37,7 @@ export const useRationalizationStore = create<RationalizationStore>((set) => ({
     set((state) => ({
       thoughts: [
         ...state.thoughts,
-        { id: Date.now(), content, beliefBefore, distortion: '', reframe: '', beliefAfter: 50 },
+        { id: Date.now(), content, beliefBefore, distortion: '', evidenceFor: '', evidenceAgainst: '', reframe: '', beliefAfter: 50 },
       ],
     })),
 
