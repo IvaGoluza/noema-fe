@@ -464,7 +464,7 @@ const hr: Record<TranslationKey, string> = {
   'step7.table.intensity': 'Intenzitet',
   'step7.export': 'Izvezi kao PDF',
   'step7.completeSession': 'Završi sesiju',
-  'step7.pdf.title': 'Racionalizacija s Noema',
+  'step7.pdf.title': 'Noema Racionalizacija',
 
   // EmotionPicker
   'emotionPicker.hint': 'Odaberite glavnu emociju kako biste vidjeli podskupine i detaljne emocije',
