@@ -6,7 +6,7 @@ const en = {
 
   // HomePage
   'home.disclaimer': 'Intended for support and guidance, not a substitute for professional mental health care.',
-  'home.hero.title': 'Understand Your Thoughts\nwith Noema',
+  'home.hero.title': 'Understand Your Thoughts',
   'home.hero.body': 'Examine the thoughts that run through your mind, spot thinking patterns that may be making you feel worse, and practice more balanced ways of looking at situations.',
   'home.hero.cta': 'Start Session',
   'home.hero.loadSession': 'Load saved session',
@@ -353,7 +353,7 @@ const hr: Record<TranslationKey, string> = {
 
   // HomePage
   'home.disclaimer': 'Namijenjeno za podršku i smjernice, ne kao zamjena za profesionalnu skrb o mentalnom zdravlju.',
-  'home.hero.title': 'Razumijte Svoje Misli\ns Noemom',
+  'home.hero.title': 'Razumijte Svoje Misli',
   'home.hero.body': 'Ispitajte misli koje vam prolaze kroz glavu, prepoznajte obrasce razmišljanja i vježbajte uravnoteženije poglede na situacije.',
   'home.hero.cta': 'Pokreni sesiju',
   'home.hero.loadSession': 'Učitaj spremljenu sesiju',
