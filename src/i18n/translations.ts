@@ -2,13 +2,13 @@ export type Lang = 'en' | 'hr'
 
 const en = {
   // Navbar
-  'nav.startSession': 'Start Session',
+  'nav.startSession': 'Start new session',
 
   // HomePage
   'home.disclaimer': 'Intended for support and guidance, not a substitute for professional mental health care.',
   'home.hero.title': 'Understand Your Thoughts',
   'home.hero.body': 'Examine the thoughts that run through your mind, spot thinking patterns that may be making you feel worse, and practice more balanced ways of looking at situations.',
-  'home.hero.cta': 'Start Session',
+  'home.hero.cta': 'Start new session',
   'home.hero.loadSession': 'Load saved session',
   'home.process.title': 'A three-step process for understanding and challenging unhelpful thoughts',
   'home.process.01.title': 'Notice',
@@ -22,7 +22,7 @@ const en = {
   'home.ai.note': 'Every AI-generated suggestion is fully editable, and you can override or insert your own insights at any stage of the process.',
   'home.privacy.title': 'Privacy',
   'home.privacy.body': 'Your thoughts stay private. Noema does not store your entries after your session ends.',
-  'home.privacy.note': "If you'd like to keep them, you can export your session as a PDF.",
+  'home.privacy.note': "If you'd like to keep them, you can export your session as a PDF or save it as a .noema file which you can reload in the app later.",
   'home.footer.tagline': 'A cognitive rationalization platform.',
   'home.footer.copyright': '© 2026 Noema. All rights reserved.',
 
@@ -122,6 +122,7 @@ const en = {
   'step7.exportNoema': 'Save as .noema',
   'step7.completeSession': 'Complete session',
   'step7.pdf.title': 'Rationalization with Noema',
+  'step7.exportNote': '* The PDF is for viewing the summary only. Save as .noema to reload your session in the app.',
 
   // EmotionPicker
   'emotionPicker.hint': 'Select a main emotion to see its sub-emotions and detailed emotions',
@@ -349,13 +350,13 @@ export type TranslationKey = keyof typeof en
 
 const hr: Record<TranslationKey, string> = {
   // Navbar
-  'nav.startSession': 'Pokreni sesiju',
+  'nav.startSession': 'Pokreni novu sesiju',
 
   // HomePage
   'home.disclaimer': 'Namijenjeno za podršku i smjernice, ne kao zamjena za profesionalnu skrb o mentalnom zdravlju.',
   'home.hero.title': 'Razumijte Svoje Misli',
   'home.hero.body': 'Ispitajte misli koje vam prolaze kroz glavu, prepoznajte obrasce razmišljanja i vježbajte uravnoteženije poglede na situacije.',
-  'home.hero.cta': 'Pokreni sesiju',
+  'home.hero.cta': 'Pokreni novu sesiju',
   'home.hero.loadSession': 'Učitaj spremljenu sesiju',
   'home.process.title': 'Proces razumijevanja i propitivanja misli u tri koraka',
   'home.process.01.title': 'Primijeti',
@@ -369,7 +370,7 @@ const hr: Record<TranslationKey, string> = {
   'home.ai.note': 'Svaki prijedlog generiran AI-jem možete urediti ili unijeti vlastite uvide u bilo kojoj fazi procesa.',
   'home.privacy.title': 'Privatnost',
   'home.privacy.body': 'Vaše misli ostaju privatne. Noema ne pohranjuje vaše unose nakon završetka sesije.',
-  'home.privacy.note': 'Ako ih želite zadržati, možete preuzeti sesiju kao PDF dokument.',
+  'home.privacy.note': 'Ako ih želite zadržati, možete preuzeti sesiju kao PDF ili je spremiti kao .noema datoteku koju možete ponovno učitati u aplikaciji.',
   'home.footer.tagline': 'Platforma za kognitivnu racionalizaciju.',
   'home.footer.copyright': '© 2026 Noema. Sva prava pridržana.',
 
@@ -469,6 +470,7 @@ const hr: Record<TranslationKey, string> = {
   'step7.exportNoema': 'Spremi kao .noema',
   'step7.completeSession': 'Završi sesiju',
   'step7.pdf.title': 'Noema Racionalizacija',
+  'step7.exportNote': '* PDF je samo za pregled sažetka. Spremi kao .noema kako biste mogli nastaviti sesiju u aplikaciji.',
 
   // EmotionPicker
   'emotionPicker.hint': 'Odaberite glavnu emociju kako biste vidjeli podskupine i detaljne emocije',

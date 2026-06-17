@@ -178,20 +178,23 @@ export default function RationalizationStep7Page() {
             <Summary when={when} situation={situation} thoughts={thoughts} getDistortionKey={getDistortionKey} />
           </div>
 
-          <div className="flex items-center justify-center gap-4 mb-10">
-            <Button variant="primary" onClick={exportToPDF} className="px-8 py-3 rounded-2xl font-semibold">
-              {t('step7.export')}
-            </Button>
-            <Button variant="primary" onClick={exportToNoema} className="px-8 py-3 rounded-2xl font-semibold">
-              {t('step7.exportNoema')}
-            </Button>
-            <Button
-              variant="outline"
-              onClick={completeSession}
-              className="px-8 py-3 rounded-2xl border-navy-950 text-navy-950 font-medium"
-            >
-              {t('step7.completeSession')}
-            </Button>
+          <div className="flex flex-col items-center gap-3 mb-10">
+            <div className="flex items-center justify-center gap-4">
+              <Button variant="primary" onClick={exportToPDF} className="px-8 py-3 rounded-2xl font-semibold">
+                {t('step7.export')}
+              </Button>
+              <Button variant="primary" onClick={exportToNoema} className="px-8 py-3 rounded-2xl font-semibold">
+                {t('step7.exportNoema')}
+              </Button>
+              <Button
+                variant="outline"
+                onClick={completeSession}
+                className="px-8 py-3 rounded-2xl border-navy-950 text-navy-950 font-medium"
+              >
+                {t('step7.completeSession')}
+              </Button>
+            </div>
+            <p className="text-xs text-gray-600">{t('step7.exportNote')}</p>
           </div>
         </div>
       </div>
