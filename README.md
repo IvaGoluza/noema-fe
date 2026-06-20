@@ -106,7 +106,3 @@ src/
 - **Recharts / Shadcn charts** — emotion pie charts on the summary screen
 - **jsPDF + html-to-image** — PDF export on step 7
 - **Lucide React** — icons
-
-
-
-<br><br><img src="readme-logo.png" alt="Noema, FER" width="500" />
