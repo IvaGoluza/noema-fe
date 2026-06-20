@@ -1,0 +1,93 @@
+{
+  "version": "1",
+  "when": "2026-06-19T14:30",
+  "situation": "I had a job interview for a software engineering role I really wanted. The interviewer gave me a coding problem I hadn't seen before and I struggled to solve it within the time. At the end, the interviewer said they'd be in touch but barely smiled and seemed disengaged.",
+  "initialEmotions": [
+    {
+      "coreName": "Fear",
+      "coreColor": "#8AA83F",
+      "secondaryName": "Anxious",
+      "tertiaryName": "Worried",
+      "intensity": 80
+    },
+    {
+      "coreName": "Sad",
+      "coreColor": "#4E89A6",
+      "secondaryName": "Disappointed",
+      "tertiaryName": "Disappointed",
+      "intensity": 60
+    },
+    {
+      "coreName": "Fear",
+      "coreColor": "#8AA83F",
+      "secondaryName": "Insecure",
+      "tertiaryName": "Inadequate",
+      "intensity": 70
+    }
+  ],
+  "thoughts": [
+    {
+      "id": 1,
+      "content": "I wasn't prepared for that type of algorithm question. I need to practice more data structure problems before my next interview.",
+      "beliefBefore": 90,
+      "distortion": "",
+      "evidenceFor": "I struggled with the problem and took longer than expected. I hadn't practiced similar problems recently.",
+      "evidenceAgainst": "",
+      "reframe": "",
+      "beliefAfter": 90
+    },
+    {
+      "id": 2,
+      "content": "I completely bombed that interview. I'll never get a job in tech and my whole career is ruined.",
+      "beliefBefore": 75,
+      "distortion": "Catastrophizing",
+      "evidenceFor": "I struggled with the coding problem and didn't finish it in time.",
+      "evidenceAgainst": "I answered several other questions well. One difficult interview question doesn't end a career. Many skilled engineers have failed interviews and gone on to succeed. There are many other companies hiring.",
+      "reframe": "I found one coding problem difficult, but that's a single moment in a long career. I can study that topic and be better prepared next time. One interview does not define my future in tech.",
+      "beliefAfter": 20
+    },
+    {
+      "id": 3,
+      "content": "The interviewer barely smiled — they definitely think I'm incompetent and have already decided not to hire me.",
+      "beliefBefore": 70,
+      "distortion": "Mind Reading",
+      "evidenceFor": "The interviewer did seem less engaged and didn't smile much toward the end.",
+      "evidenceAgainst": "I can't actually know what the interviewer was thinking. They may have a neutral interview style, been tired from a long day of interviews, or been distracted by something unrelated. Many interviewers deliberately stay neutral to avoid signaling outcomes.",
+      "reframe": "I'm assuming I know what the interviewer thought, but I have no real evidence of their conclusion. Their neutral expression has many possible explanations. The only way to know the outcome is to wait for their response.",
+      "beliefAfter": 18
+    },
+    {
+      "id": 1781961580482,
+      "content": "I am incompetent.",
+      "beliefBefore": 81,
+      "distortion": "Labeling and mislabeling",
+      "evidenceFor": "",
+      "evidenceAgainst": "",
+      "reframe": "I struggled with an unfamiliar coding problem under time pressure, which is challenging for anyone — that one difficult interview doesn't define my abilities as a software engineer.",
+      "beliefAfter": 50
+    }
+  ],
+  "finalEmotions": [
+    {
+      "coreName": "Fear",
+      "coreColor": "#8AA83F",
+      "secondaryName": "Anxious",
+      "tertiaryName": "Worried",
+      "intensity": 30
+    },
+    {
+      "coreName": "Happy",
+      "coreColor": "#E8B62E",
+      "secondaryName": "Optimistic",
+      "tertiaryName": "Hopeful",
+      "intensity": 55
+    },
+    {
+      "coreName": "Happy",
+      "coreColor": "#E8B62E",
+      "secondaryName": "Powerful",
+      "tertiaryName": "Courageous",
+      "intensity": 45
+    }
+  ]
+}

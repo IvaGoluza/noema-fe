@@ -32,6 +32,16 @@ See [src/api/predict.ts](src/api/predict.ts) for the request/response shape.
 
 ---
 
+## Demo
+
+A pre-filled example session is included at `public/demo-session.noema`. To try it:
+
+1. Open the app at `http://localhost:5173`
+2. Click **Load saved session** in the navbar
+3. Select `demo-session.noema`
+
+---
+
 ## Requirements
 
 - Node.js 18+
@@ -96,3 +106,7 @@ src/
 - **Recharts / Shadcn charts** — emotion pie charts on the summary screen
 - **jsPDF + html-to-image** — PDF export on step 7
 - **Lucide React** — icons
+
+
+
+<br><br><img src="readme-logo.png" alt="Noema, FER" width="500" />
