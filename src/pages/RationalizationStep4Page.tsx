@@ -61,7 +61,7 @@ export default function RationalizationStep4Page() {
     const results: Record<number, ThoughtStatus> = {}
 
     await Promise.all(
-      thoughts.map(async (thought) => {
+      thoughts.filter((t) => !t.distortion && !t.reframe).map(async (thought) => {
         try {
           const data = await predictDistortion({ language: lang, situation, thought: thought.content })
 
