@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { BookOpen, X } from 'lucide-react'
+import { BookOpen, Loader2, X } from 'lucide-react'
 import RationalizationLayout from '../components/RationalizationLayout'
 import Accordion from '../components/ui/Accordion'
 import Select from '../components/ui/Select'
@@ -8,8 +8,9 @@ import TextArea from '../components/ui/TextArea'
 import { distortions, type Distortion } from '../data/distortions'
 import Button from '../components/ui/Button'
 import { useRationalizationStore } from '../store/rationalizationStore'
-import { useT } from '../i18n/useLanguage'
+import { useT, useLanguage } from '../i18n/useLanguage'
 import type { SessionThought } from '../types/rationalization'
+import { predictDistortion } from '../api/predict'
 
 interface ProsConsState {
   thought: SessionThought
@@ -18,12 +19,24 @@ interface ProsConsState {
   reframe: string
 }
 
+type ThoughtStatus = { type: 'noDistortion' } | { type: 'error' }
+
+function matchDistortion(apiCategory: string): string {
+  const lower = apiCategory.toLowerCase()
+  const match = distortions.find((d) => lower.includes(d.name.toLowerCase()))
+  return match ? match.name : apiCategory
+}
+
 export default function RationalizationStep4Page() {
   const navigate = useNavigate()
   const t = useT()
+  const { lang } = useLanguage()
   const thoughts = useRationalizationStore((s) => s.thoughts)
+  const situation = useRationalizationStore((s) => s.situation)
   const updateThought = useRationalizationStore((s) => s.updateThought)
   const [modal, setModal] = useState<ProsConsState | null>(null)
+  const [generating, setGenerating] = useState(false)
+  const [thoughtStatus, setThoughtStatus] = useState<Record<number, ThoughtStatus>>({})
 
   function openModal(thought: SessionThought) {
     setModal({ thought, pros: thought.evidenceFor, cons: thought.evidenceAgainst, reframe: thought.reframe })
@@ -40,16 +53,34 @@ export default function RationalizationStep4Page() {
     label: t(`distortions.${d.key}.name`),
   }))
 
-  function generateSuggestions() {
-    thoughts.forEach((thought) => {
-      if (!thought.distortion && !thought.reframe) {
-        updateThought(thought.id, {
-          distortion: 'All-or-Nothing Thinking',
-          reframe:
-            "One setback doesn't define the whole situation. I can acknowledge the difficulty while recognising what I've done well.",
-        })
-      }
-    })
+  async function generateSuggestions() {
+    if (generating) return
+    setGenerating(true)
+    setThoughtStatus({})
+
+    const results: Record<number, ThoughtStatus> = {}
+
+    await Promise.all(
+      thoughts.map(async (thought) => {
+        try {
+          const data = await predictDistortion({ language: lang, situation, thought: thought.content })
+
+          if (data.binary?.label === 'Distorted' && data.classification && data.reframe) {
+            updateThought(thought.id, {
+              distortion: matchDistortion(data.classification.category),
+              reframe: data.reframe,
+            })
+          } else {
+            results[thought.id] = { type: 'noDistortion' }
+          }
+        } catch {
+          results[thought.id] = { type: 'error' }
+        }
+      })
+    )
+
+    setThoughtStatus(results)
+    setGenerating(false)
   }
 
   return (
@@ -68,7 +99,8 @@ export default function RationalizationStep4Page() {
             <span className="text-xs h-fit tracking-widest uppercase font-medium text-gray-500">
               {t('step4.thoughts.label')}
             </span>
-            <Button onClick={generateSuggestions} className="flex items-center gap-2 px-4">
+            <Button onClick={generateSuggestions} disabled={generating} className="flex items-center gap-2 px-4">
+              {generating && <Loader2 size={14} className="animate-spin" />}
               {t('step4.generate')}
             </Button>
           </div>
@@ -94,6 +126,16 @@ export default function RationalizationStep4Page() {
                 }
               >
                 <div className="pt-4 flex flex-col gap-4">
+                  {thoughtStatus[thought.id]?.type === 'noDistortion' && (
+                    <p className="text-xs text-blue-600 bg-blue-50 rounded px-3 py-2">
+                      {t('step4.api.noDistortion')}
+                    </p>
+                  )}
+                  {thoughtStatus[thought.id]?.type === 'error' && (
+                    <p className="text-xs text-red-600 bg-red-50 rounded px-3 py-2">
+                      {t('step4.api.error')}
+                    </p>
+                  )}
                   <div className="flex items-end justify-between gap-4">
                     <Select
                       label={t('step4.distortion.label')}

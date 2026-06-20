@@ -81,6 +81,8 @@ const en = {
   'step4.evidence.reframe': 'Reframe',
   'step4.evidence.cancel': 'Cancel',
   'step4.evidence.save': 'Save Reframe',
+  'step4.api.noDistortion': 'No cognitive distortion detected for this thought.',
+  'step4.api.error': 'Could not get a suggestion. Please check your connection and try again.',
 
   // Step 5
   'step5.title': 'Integration & Belief',
@@ -429,6 +431,8 @@ const hr: Record<TranslationKey, string> = {
   'step4.evidence.reframe': 'Preoblikovana misao',
   'step4.evidence.cancel': 'Odustani',
   'step4.evidence.save': 'Spremi preoblikovanje',
+  'step4.api.noDistortion': 'Nije pronađena kognitivna distorzija za ovu misao.',
+  'step4.api.error': 'Nije moguće dohvatiti prijedlog. Provjerite vezu i pokušajte ponovo.',
 
   // Step 5
   'step5.title': 'Integracija i uvjerenje',
