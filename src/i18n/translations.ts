@@ -1,6 +1,11 @@
 export type Lang = 'en' | 'hr'
 
 const en = {
+  // NotFoundPage
+  'notFound.title': 'Page not found',
+  'notFound.body': "The page you're looking for doesn't exist or has been moved.",
+  'notFound.cta': 'Go home',
+
   // Navbar
   'nav.startSession': 'Start new session',
 
@@ -351,6 +356,11 @@ const en = {
 export type TranslationKey = keyof typeof en
 
 const hr: Record<TranslationKey, string> = {
+  // NotFoundPage
+  'notFound.title': 'Stranica nije pronađena',
+  'notFound.body': 'Stranica koju tražite ne postoji ili je premještena.',
+  'notFound.cta': 'Idi na početnu stranicu',
+
   // Navbar
   'nav.startSession': 'Pokreni novu sesiju',
 

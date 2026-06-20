@@ -9,6 +9,7 @@ import RationalizationStep4Page from './pages/RationalizationStep4Page'
 import RationalizationStep5Page from './pages/RationalizationStep5Page'
 import RationalizationStep6Page from './pages/RationalizationStep6Page'
 import RationalizationStep7Page from './pages/RationalizationStep7Page'
+import NotFoundPage from './pages/NotFoundPage'
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="/rationalization/5" element={<RationalizationStep5Page />} />
             <Route path="/rationalization/6" element={<RationalizationStep6Page />} />
             <Route path="/rationalization/7" element={<RationalizationStep7Page />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
