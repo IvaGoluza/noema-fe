@@ -87,7 +87,9 @@ export default function RationalizationStep7Page() {
     const headerHeight = 36
     const pdf = new jsPDF({ orientation: 'portrait', unit: 'px', format: 'a4' })
     const pageWidth = pdf.internal.pageSize.getWidth()
+    const pageHeight = pdf.internal.pageSize.getHeight()
     const usableWidth = pageWidth - margin * 2
+    const usablePageH = pageHeight - margin * 2
 
     // Page 1: header + charts
     pdf.setFont('helvetica', 'bold')
@@ -96,10 +98,28 @@ export default function RationalizationStep7Page() {
     const chartsH = (chartsImg.height * usableWidth) / chartsImg.width
     pdf.addImage(chartsUrl, 'PNG', margin, margin + headerHeight, usableWidth, chartsH)
 
-    // Page 2: summary
-    pdf.addPage()
+    // Summary: split across as many pages as needed
     const summaryH = (summaryImg.height * usableWidth) / summaryImg.width
-    pdf.addImage(summaryUrl, 'PNG', margin, margin, usableWidth, summaryH)
+    const scaleY = summaryImg.height / summaryH
+    const sliceHeightPx = Math.round(usablePageH * scaleY)
+
+    let yImgPx = 0
+    while (yImgPx < summaryImg.height) {
+      pdf.addPage()
+      const remainingPx = summaryImg.height - yImgPx
+      const slicePx = Math.min(sliceHeightPx, remainingPx)
+      const sliceH = slicePx / scaleY
+
+      const canvas = document.createElement('canvas')
+      canvas.width = summaryImg.width
+      canvas.height = slicePx
+      const ctx = canvas.getContext('2d')!
+      ctx.drawImage(summaryImg, 0, yImgPx, summaryImg.width, slicePx, 0, 0, summaryImg.width, slicePx)
+      const sliceUrl = canvas.toDataURL('image/png')
+
+      pdf.addImage(sliceUrl, 'PNG', margin, margin, usableWidth, sliceH)
+      yImgPx += sliceHeightPx
+    }
 
     pdf.save('rationalization-summary.pdf')
   }
